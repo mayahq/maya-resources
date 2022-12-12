@@ -1,0 +1,47 @@
+{
+    "name": "maya-resources",
+    "version": "1.0.0",
+    "description": "Maya module to control maya resources",
+    "main": "index.js",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+.git"
+    },
+    "author": "mayahq",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mayahq/mayadev/issues"
+    },
+    "homepage": "#readme",
+    "nodepath": "src/nodes",
+    "nodeRedModuleName": "maya-resources",
+    "node-red": {
+        "nodes": {
+            "generate": "src/nodes/generate/generate.node.js",
+            "instruct": "src/nodes/instruct/instruct.node.js",
+            "session": "src/nodes/session/session.node.js",
+            "recipe": "src/nodes/recipe/recipe.node.js",
+            "step": "src/nodes/step/step.node.js",
+            "runtime": "src/nodes/runtime/runtime.node.js",
+            "health": "src/nodes/health/health.node.js"
+        }
+    },
+    "mayaDetails": {
+        "name": "maya-resources",
+        "version": "1.0.0",
+        "description": "Maya module to control maya resources",
+        "author": "mayahq",
+        "type": "git",
+        "needsUserProfile": false,
+        "thumbnail": "",
+        "repository": {
+            "type": "git",
+            "url": "git+.git"
+        }
+    },
+    "dependencies": {
+        "@mayahq/module-sdk": "file:../../module-sdk",
+        "axios": "^1.2.1"
+    }
+}
