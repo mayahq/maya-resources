@@ -1,0 +1,104 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("delete-session", {
+        category: "Maya :: Session",
+        color: "#37B954",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            session_id: {
+                value: "abc",
+                required: false
+            },
+            payloadTypesession_id: {
+                value: "str"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Delete Session"
+        },
+        paletteLabel: "Delete Session",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypesession_id === null) {
+                if (this.session_id === "") {
+                    this.payloadTypesession_id = "date"
+                } else {
+                    this.payloadTypesession_id = "str"
+                }
+            } else if (this.payloadTypesession_id === 'string' || this.payloadTypesession_id === 'none') {
+                this.payloadTypesession_id = "str"
+            }
+
+            $("#node-input-payloadTypesession_id").val(this.payloadTypesession_id)
+            $("#node-input-session_id").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypesession_id"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-session_id").typedInput("type", this.payloadTypesession_id)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="delete-session">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-session_id">Session Id</label>
+        <input type="text" id="node-input-session_id"></input>
+        <input type="hidden" id="node-input-payloadTypesession_id">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="delete-session">
+    <h2>Description</h2>
+    <p>The node docs</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

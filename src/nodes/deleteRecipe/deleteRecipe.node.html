@@ -1,0 +1,95 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("delete-recipe", {
+        category: "Maya :: Recipe",
+        color: "#37B954",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            recipeId: {
+                value: "abc",
+                required: false
+            },
+            payloadTyperecipeId: {
+                value: "str"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Delete Recipe"
+        },
+        paletteLabel: "Delete Recipe",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTyperecipeId === null) {
+                if (this.recipeId === "") {
+                    this.payloadTyperecipeId = "date"
+                } else {
+                    this.payloadTyperecipeId = "str"
+                }
+            } else if (this.payloadTyperecipeId === 'string' || this.payloadTyperecipeId === 'none') {
+                this.payloadTyperecipeId = "str"
+            }
+
+            $("#node-input-payloadTyperecipeId").val(this.payloadTyperecipeId)
+            $("#node-input-recipeId").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTyperecipeId"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-recipeId").typedInput("type", this.payloadTyperecipeId)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="delete-recipe">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-recipeId">Recipeid</label>
+        <input type="text" id="node-input-recipeId"></input>
+        <input type="hidden" id="node-input-payloadTyperecipeId">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="delete-recipe">
+    <h2>Description</h2>
+    <p>The node docs</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

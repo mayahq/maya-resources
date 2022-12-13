@@ -1,0 +1,104 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("teach-step", {
+        category: "Maya :: Step",
+        color: "#37B954",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            request_body: {
+                value: "abc",
+                required: false
+            },
+            payloadTyperequest_body: {
+                value: "str"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Teach Step"
+        },
+        paletteLabel: "Teach Step",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTyperequest_body === null) {
+                if (this.request_body === "") {
+                    this.payloadTyperequest_body = "date"
+                } else {
+                    this.payloadTyperequest_body = "str"
+                }
+            } else if (this.payloadTyperequest_body === 'string' || this.payloadTyperequest_body === 'none') {
+                this.payloadTyperequest_body = "str"
+            }
+
+            $("#node-input-payloadTyperequest_body").val(this.payloadTyperequest_body)
+            $("#node-input-request_body").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTyperequest_body"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-request_body").typedInput("type", this.payloadTyperequest_body)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="teach-step">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-request_body">undefined</label>
+        <input type="text" id="node-input-request_body"></input>
+        <input type="hidden" id="node-input-payloadTyperequest_body">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="teach-step">
+    <h2>Description</h2>
+    <p>The node docs</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>
