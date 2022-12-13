@@ -14,12 +14,12 @@ class Instruct extends Node {
     static schema = new Schema({
         name: 'instruct',
         label: 'instruct',
-        category: 'Maya Resources',
+        category: 'Maya :: Session',
         isConfig: false,
         fields: {
             // Whatever custom fields the node needs.
         },
-
+        color: "#37B954",
     })
 
     onInit() {
