@@ -1,7 +1,10 @@
 const {
     Node,
-    Schema
+    Schema,
+    fields
 } = require('@mayahq/module-sdk')
+const { InstructTask } = require('../../util/pacEngine')
+const MayaResourcesAuth = require('../mayaResourcesAuth/mayaResourcesAuth.schema')
 
 class Instruct extends Node {
     constructor(node, RED, opts) {
@@ -17,7 +20,29 @@ class Instruct extends Node {
         category: 'Maya :: Session',
         isConfig: false,
         fields: {
-            // Whatever custom fields the node needs.
+            auth: new fields.ConfigNode({
+                type: MayaResourcesAuth,
+                displayName: "Auth",
+            }),
+            sessionId: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "Session Id",
+            }),
+            instruction: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "Instruction",
+            }),
+            fromScratch: new fields.Typed({
+                type: "bool",
+                allowedTypes: ["msg", "flow", "global", "bool"],
+                defaultVal: false,
+                displayName: "Generate from scratch",
+            }),
+
         },
         color: "#37B954",
     })
@@ -27,9 +52,21 @@ class Instruct extends Node {
     }
 
     async onMessage(msg, vals) {
-        // Handle the message. The returned value will
-        // be sent as the message to any further nodes.
+        const task = new InstructTask({
+            sessionId: vals.sessionId,
+            instruction: vals.instruction,
+            fromScratch: vals.fromScratch
+        })
+        task.on('instructDone', (data) => {
+            const newMsg = { ...msg, payload: data }
+            this.redNode.send(newMsg)
+            this.setStatus('SUCCESS', `Done`)
+            task.done()
+        })
 
+        this.setStatus('PROGRESS', 'Instructing...')
+        task.execute()
+        return null
     }
 }
 

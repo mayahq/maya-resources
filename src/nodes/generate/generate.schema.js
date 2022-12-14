@@ -1,7 +1,10 @@
 const {
     Node,
-    Schema
+    Schema, 
+    fields
 } = require('@mayahq/module-sdk')
+const { GenerateTask } = require('../../util/pacEngine')
+const MayaResourcesAuth = require('../mayaResourcesAuth/mayaResourcesAuth.schema')
 
 class Generate extends Node {
     constructor(node, RED, opts) {
@@ -17,6 +20,17 @@ class Generate extends Node {
         category: 'Maya :: Session',
         isConfig: false,
         fields: {
+            auth: new fields.ConfigNode({
+                type: MayaResourcesAuth,
+                displayName: "Auth",
+            }),
+
+            sessionId: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "Session Id",
+            }),
             // Whatever custom fields the node needs.
         },
         color: "#37B954",
@@ -27,9 +41,21 @@ class Generate extends Node {
     }
 
     async onMessage(msg, vals) {
-        // Handle the message. The returned value will
-        // be sent as the message to any further nodes.
+        const task = new GenerateTask({ sessionId: vals.sessionId })
+        let stepsGenerated = 0
+        task.on('stepGenerated', (data) => {
+            const newMsg = { ...msg, payload: data }
+            stepsGenerated++
+            this.setStatus('SUCCESS', `Received step ${stepsGenerated}`)
 
+            this.redNode.send(newMsg)
+        })
+        setTimeout(() => {
+            task.done()
+        }, 5 * 60 * 1000) // For now, timeout and close connection after 5 mins
+
+        this.setStatus('PROGRESS', 'Generating steps...')
+        task.execute()
     }
 }
 
