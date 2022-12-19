@@ -15,7 +15,7 @@ class ClearSession extends Node {
     static schema = new Schema({
         name: "clear-session",
         label: "Clear Session",
-        category: "Maya :: Session",
+        category: "maya :: Session",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -60,7 +60,7 @@ class ClearSession extends Node {
             },
 
             headers: {
-                Authorization: `Bearer ${this.credentials.auth.key}`,
+                Authorization: `apikey ${this.credentials.auth.key}`,
             },
         };
 

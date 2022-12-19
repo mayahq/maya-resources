@@ -15,7 +15,7 @@ class DeleteRuntime extends Node {
     static schema = new Schema({
         name: "delete-runtime",
         label: "Delete Runtime",
-        category: "Maya :: Runtime",
+        category: "maya :: Runtime",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -42,7 +42,7 @@ class DeleteRuntime extends Node {
             data: {},
 
             headers: {
-                Authorization: `Bearer ${this.credentials.auth.key}`,
+                Authorization: `apikey ${this.credentials.auth.key}`,
             },
         };
 

@@ -15,7 +15,7 @@ class NewSession extends Node {
     static schema = new Schema({
         name: "new-session",
         label: "New Session",
-        category: "Maya :: Session",
+        category: "maya :: Session",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -35,7 +35,7 @@ class NewSession extends Node {
             data: {},
 
             headers: {
-                Authorization: `Bearer ${this.credentials.auth.key}`,
+                Authorization: `apikey ${this.credentials.auth.key}`,
             },
         };
 

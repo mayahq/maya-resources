@@ -13,7 +13,7 @@ class DeleteRecipe extends Node {
     static schema = new Schema({
         name: "delete-recipe",
         label: "Delete Recipe",
-        category: "Maya :: Recipe",
+        category: "maya :: Recipe",
         isConfig: false,
         fields: {
             recipeId: new fields.Typed({

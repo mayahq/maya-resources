@@ -13,7 +13,7 @@ class UpdateStep extends Node {
     static schema = new Schema({
         name: "update-step",
         label: "Update Step",
-        category: "Maya :: Step",
+        category: "maya :: Step",
         isConfig: false,
         fields: {
             stepId: new fields.Typed({

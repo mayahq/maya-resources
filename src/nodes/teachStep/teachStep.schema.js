@@ -15,7 +15,7 @@ class TeachStep extends Node {
     static schema = new Schema({
         name: "teach-step",
         label: "Teach Step",
-        category: "Maya :: Step",
+        category: "maya :: Step",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -44,7 +44,7 @@ class TeachStep extends Node {
             },
 
             headers: {
-                Authorization: `Bearer ${this.credentials.auth.key}`,
+                Authorization: `apikey ${this.credentials.auth.key}`,
             },
         };
 

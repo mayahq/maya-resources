@@ -13,7 +13,7 @@ class SessionDeploy extends Node {
     static schema = new Schema({
         name: "session-deploy",
         label: "Session Deploy",
-        category: "Maya :: Session",
+        category: "maya :: Session",
         isConfig: false,
         fields: {},
         color: "#37B954",

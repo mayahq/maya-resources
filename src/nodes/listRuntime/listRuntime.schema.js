@@ -15,7 +15,7 @@ class ListRuntime extends Node {
     static schema = new Schema({
         name: "list-runtime",
         label: "List Runtime",
-        category: "Maya :: Runtime",
+        category: "maya :: Runtime",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -35,7 +35,7 @@ class ListRuntime extends Node {
             data: {},
 
             headers: {
-                Authorization: `Bearer ${this.credentials.auth.key}`,
+                Authorization: `apikey ${this.credentials.auth.key}`,
             },
         };
 

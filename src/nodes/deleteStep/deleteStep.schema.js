@@ -13,7 +13,7 @@ class DeleteStep extends Node {
     static schema = new Schema({
         name: "delete-step",
         label: "Delete Step",
-        category: "Maya :: Step",
+        category: "maya :: Step",
         isConfig: false,
         fields: {
             stepId: new fields.Typed({

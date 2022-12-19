@@ -13,7 +13,7 @@ class AddStep extends Node {
     static schema = new Schema({
         name: "add-step",
         label: "Add Step",
-        category: "Maya :: Step",
+        category: "maya :: Step",
         isConfig: false,
         fields: {},
         color: "#37B954",

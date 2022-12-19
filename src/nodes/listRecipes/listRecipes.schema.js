@@ -15,7 +15,7 @@ class ListRecipes extends Node {
     static schema = new Schema({
         name: "list-recipes",
         label: "List Recipes",
-        category: "Maya :: Recipe",
+        category: "maya :: Recipe",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -35,7 +35,7 @@ class ListRecipes extends Node {
             data: {},
 
             headers: {
-                Authorization: `Bearer ${this.credentials.auth.key}`,
+                Authorization: `apikey ${this.credentials.auth.key}`,
             },
         };
 

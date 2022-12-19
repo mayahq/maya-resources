@@ -13,7 +13,7 @@ class SessionUndo extends Node {
     static schema = new Schema({
         name: "session-undo",
         label: "Session Undo",
-        category: "Maya :: Session",
+        category: "maya :: Session",
         isConfig: false,
         fields: {},
         color: "#37B954",

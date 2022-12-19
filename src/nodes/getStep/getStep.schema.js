@@ -13,7 +13,7 @@ class GetStep extends Node {
     static schema = new Schema({
         name: "get-step",
         label: "Get Step",
-        category: "Maya :: Step",
+        category: "maya :: Step",
         isConfig: false,
         fields: {
             stepId: new fields.Typed({

@@ -13,7 +13,7 @@ class AddRecipe extends Node {
     static schema = new Schema({
         name: "add-recipe",
         label: "Add Recipe",
-        category: "Maya :: Recipe",
+        category: "maya :: Recipe",
         isConfig: false,
         fields: {},
         color: "#37B954",

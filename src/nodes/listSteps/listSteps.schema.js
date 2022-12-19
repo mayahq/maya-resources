@@ -15,7 +15,7 @@ class ListSteps extends Node {
     static schema = new Schema({
         name: "list-steps",
         label: "List Steps",
-        category: "Maya :: Step",
+        category: "maya :: Step",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -35,7 +35,7 @@ class ListSteps extends Node {
             data: {},
 
             headers: {
-                Authorization: `Bearer ${this.credentials.auth.key}`,
+                Authorization: `apikey ${this.credentials.auth.key}`,
             },
         };
 
