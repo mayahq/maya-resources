@@ -1,6 +1,6 @@
 <script type='text/javascript'>
     RED.nodes.registerType("create-runtime", {
-        category: "Maya :: Runtime",
+        category: "maya :: Runtime",
         color: "#37B954",
         defaults: {
             name: {
@@ -14,6 +14,20 @@
                 type: "maya-resources-auth",
                 required: true
             },
+            workspaceName: {
+                value: "",
+                required: true
+            },
+            payloadTypeworkspaceName: {
+                value: "str"
+            },
+            startAfterCreate: {
+                value: "true",
+                required: true
+            },
+            payloadTypestartAfterCreate: {
+                value: "bool"
+            },
         },
         inputs: 1,
         outputs: 1,
@@ -23,7 +37,44 @@
         },
         paletteLabel: "Create Runtime",
         exportable: true,
-        oneditprepare: function() {},
+        oneditprepare: function() {
+            if (this.payloadTypeworkspaceName === null) {
+                if (this.workspaceName === "") {
+                    this.payloadTypeworkspaceName = "date"
+                } else {
+                    this.payloadTypeworkspaceName = "str"
+                }
+            } else if (this.payloadTypeworkspaceName === 'string' || this.payloadTypeworkspaceName === 'none') {
+                this.payloadTypeworkspaceName = "str"
+            }
+
+            $("#node-input-payloadTypeworkspaceName").val(this.payloadTypeworkspaceName)
+            $("#node-input-workspaceName").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeworkspaceName"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-workspaceName").typedInput("type", this.payloadTypeworkspaceName)
+
+            if (this.payloadTypestartAfterCreate === null) {
+                if (this.startAfterCreate === "") {
+                    this.payloadTypestartAfterCreate = "date"
+                } else {
+                    this.payloadTypestartAfterCreate = "bool"
+                }
+            } else if (this.payloadTypestartAfterCreate === 'string' || this.payloadTypestartAfterCreate === 'none') {
+                this.payloadTypestartAfterCreate = "bool"
+            }
+
+            $("#node-input-payloadTypestartAfterCreate").val(this.payloadTypestartAfterCreate)
+            $("#node-input-startAfterCreate").typedInput({
+                default: "bool",
+                typeField: $("#node-input-payloadTypestartAfterCreate"),
+                types: ["msg", "flow", "global", "bool"]
+            })
+            $("#node-input-startAfterCreate").typedInput("type", this.payloadTypestartAfterCreate)
+
+        },
         oneditsave: function() {},
         oneditcancel: function() {},
         oneditdelete: function() {},
@@ -41,6 +92,16 @@
     <div class="form-row">
         <label for="node-input-auth">Auth</label>
         <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-workspaceName">Workspace Name</label>
+        <input type="text" id="node-input-workspaceName"></input>
+        <input type="hidden" id="node-input-payloadTypeworkspaceName">
+    </div>
+    <div class="form-row">
+        <label for="node-input-startAfterCreate">Start After Create</label>
+        <input type="text" id="node-input-startAfterCreate"></input>
+        <input type="hidden" id="node-input-payloadTypestartAfterCreate">
     </div>
 </script>
 
