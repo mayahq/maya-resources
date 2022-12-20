@@ -1,4 +1,5 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
+const { MAYA_BACKEND_URL } = require("../../constants");
 const axios = require("../../util/axios");
 
 const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
@@ -30,7 +31,7 @@ class ListRuntime extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/runtimes`,
+            url: `${MAYA_BACKEND_URL}/api/v2/dashboard`,
             method: "get",
             data: {},
 
