@@ -1,4 +1,5 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
+const { MAYA_BACKEND_URL } = require("../../constants");
 const axios = require("../../util/axios");
 
 const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
@@ -27,17 +28,17 @@ class DeleteRuntime extends Node {
                 type: "str",
                 allowedTypes: ["msg", "flow", "global"],
                 defaultVal: "abc",
-                displayName: "Runtimeid",
+                displayName: "Runtime ID",
             }),
         },
         color: "#37B954",
     });
 
     async onMessage(msg, vals) {
-        this.setStatus("PROGRESS", "Processing...");
+        this.setStatus("PROGRESS", "Deleting...");
 
         const request = {
-            url: `/api/v1/library/runtime/${vals.runtimeId}`,
+            url: `${MAYA_BACKEND_URL}/api/v2/brains/${vals.runtimeId}`,
             method: "delete",
             data: {},
 
@@ -49,7 +50,7 @@ class DeleteRuntime extends Node {
         try {
             const response = await axios(request);
             msg.payload = response.data;
-            this.setStatus("SUCCESS", "Done");
+            this.setStatus("SUCCESS", "Deleted");
         } catch (e) {
             this.setStatus("ERROR", "Error:" + e.toString());
             msg.__isError = true;
