@@ -1,7 +1,10 @@
-const MAYA_BACKEND_URL = process.env.MAYA_BACKEND_URL || 'http://localhost:5000'
-const MAYA_PAC_URL = process.env.PAC_SERVER_BASEURL || 'http://localhost:8000'
+let MAYA_PAC_URL = 'http://localhost:8000'
+if (process.env.RUNTIME_ENVIRONMENT === 'PRODUCTION') {
+    MAYA_PAC_URL = 'https://api.mayalabs.io/pac/api'
+} else if (process.env.RUNTIME_ENVIRONMENT === 'STAGING') {
+    MAYA_PAC_URL = 'https://api.dev.mayalabs.io/pac/api'
+}
 
 module.exports = {
-    MAYA_BACKEND_URL,
     MAYA_PAC_URL
 }
