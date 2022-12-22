@@ -15,7 +15,7 @@ class TeachStep extends Node {
     static schema = new Schema({
         name: "teach-step",
         label: "Teach Step",
-        category: "maya :: Step",
+        category: "Maya :: Step",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -37,7 +37,7 @@ class TeachStep extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/step/teach`,
+            url: `/v1/library/step/teach`,
             method: "post",
             data: {
                 request_body: vals.request_body,

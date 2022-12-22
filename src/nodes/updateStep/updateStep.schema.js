@@ -13,7 +13,7 @@ class UpdateStep extends Node {
     static schema = new Schema({
         name: "update-step",
         label: "Update Step",
-        category: "maya :: Step",
+        category: "Maya :: Step",
         isConfig: false,
         fields: {
             stepId: new fields.Typed({
@@ -30,7 +30,7 @@ class UpdateStep extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/step/${vals.stepId}`,
+            url: `/v1/library/step/${vals.stepId}`,
             method: "put",
             data: {},
         };

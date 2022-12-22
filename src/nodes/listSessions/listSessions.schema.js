@@ -15,7 +15,7 @@ class ListSessions extends Node {
     static schema = new Schema({
         name: "list-sessions",
         label: "List Sessions",
-        category: "maya :: Session",
+        category: "Maya :: Session",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -30,7 +30,7 @@ class ListSessions extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/sessions`,
+            url: `/v1/sessions`,
             method: "get",
             data: {},
 

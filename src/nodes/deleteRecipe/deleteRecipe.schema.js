@@ -13,7 +13,7 @@ class DeleteRecipe extends Node {
     static schema = new Schema({
         name: "delete-recipe",
         label: "Delete Recipe",
-        category: "maya :: Recipe",
+        category: "Maya :: Recipe",
         isConfig: false,
         fields: {
             recipeId: new fields.Typed({
@@ -30,7 +30,7 @@ class DeleteRecipe extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/recipe/${vals.recipeId}`,
+            url: `/v1/library/recipe/${vals.recipeId}`,
             method: "delete",
             data: {},
         };

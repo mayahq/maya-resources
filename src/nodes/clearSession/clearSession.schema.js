@@ -15,7 +15,7 @@ class ClearSession extends Node {
     static schema = new Schema({
         name: "clear-session",
         label: "Clear Session",
-        category: "maya :: Session",
+        category: "Maya :: Session",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -51,7 +51,7 @@ class ClearSession extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/session/clear`,
+            url: `/v1/session/clear`,
             method: "post",
             data: {
                 session_id: vals.session_id,

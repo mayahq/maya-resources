@@ -13,7 +13,7 @@ class AddStep extends Node {
     static schema = new Schema({
         name: "add-step",
         label: "Add Step",
-        category: "maya :: Step",
+        category: "Maya :: Step",
         isConfig: false,
         fields: {},
         color: "#37B954",
@@ -23,7 +23,7 @@ class AddStep extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/step/new`,
+            url: `/v1/library/step/new`,
             method: "post",
             data: {},
         };

@@ -15,7 +15,7 @@ class TeachRecipe extends Node {
     static schema = new Schema({
         name: "teach-recipe",
         label: "Teach Recipe",
-        category: "maya :: Recipe",
+        category: "Maya :: Recipe",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -37,7 +37,7 @@ class TeachRecipe extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/recipe/teach`,
+            url: `/v1/library/recipe/teach`,
             method: "post",
             data: {
                 request_body: vals.request_body,

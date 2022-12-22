@@ -15,7 +15,7 @@ class ListSteps extends Node {
     static schema = new Schema({
         name: "list-steps",
         label: "List Steps",
-        category: "maya :: Step",
+        category: "Maya :: Step",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -30,7 +30,7 @@ class ListSteps extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/steps`,
+            url: `/v1/library/steps`,
             method: "get",
             data: {},
 

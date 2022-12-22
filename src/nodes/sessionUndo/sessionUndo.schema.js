@@ -13,7 +13,7 @@ class SessionUndo extends Node {
     static schema = new Schema({
         name: "session-undo",
         label: "Session Undo",
-        category: "maya :: Session",
+        category: "Maya :: Session",
         isConfig: false,
         fields: {},
         color: "#37B954",
@@ -23,7 +23,7 @@ class SessionUndo extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/session/redo`,
+            url: `/v1/session/redo`,
             method: "post",
             data: {},
         };

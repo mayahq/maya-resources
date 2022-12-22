@@ -1,7 +1,6 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const axios = require('axios');
 const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
-const { MAYA_BACKEND_URL } = require("../../constants");
 const { poll } = require("../../util/poll");
 
 class CreateRuntime extends Node {
@@ -16,7 +15,7 @@ class CreateRuntime extends Node {
     static schema = new Schema({
         name: "create-runtime",
         label: "Create Runtime",
-        category: "maya :: Runtime",
+        category: "Maya :: Runtime",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -44,8 +43,10 @@ class CreateRuntime extends Node {
     async onMessage(msg, vals) {
         this.setStatus("PROGRESS", "Processing...");
 
+        console.log('url', this.mayaBackendUrl)
+
         const createRequest = {
-            url: `${MAYA_BACKEND_URL}/api/v2/brains`,
+            url: `${this.mayaBackendUrl}/api/v2/brains`,
             method: "post",
             data: {
                 name: vals.workspaceName,
@@ -61,7 +62,8 @@ class CreateRuntime extends Node {
 
         try {
             const createResponse = await axios(createRequest);
-            // msg.payload = createResponse.data;
+            msg.payload = createResponse.data;
+            
             const brain = createResponse.data.results
             if (!vals.startAfterCreate) {
                 this.setStatus("SUCCESS", "Done");
@@ -69,7 +71,7 @@ class CreateRuntime extends Node {
             }
 
             const startRequest = {
-                url: `${MAYA_BACKEND_URL}/api/v2/brains/start`,
+                url: `${this.mayaBackendUrl}/api/v2/brains/start`,
                 method: 'post',
                 data: {
                     _id: brain._id
@@ -106,6 +108,8 @@ class CreateRuntime extends Node {
             try {
                 await poll(startConfirmationFunction, 1000, 120000);
                 clearInterval(interval)
+                this.setStatus("SUCCESS", "Done");
+                return msg
             } catch (e) {
                 clearInterval(interval)
                 if (e.type === 'TIMED_OUT') {
@@ -118,8 +122,6 @@ class CreateRuntime extends Node {
                 msg.__error = e;
                 return msg;
             }
-
-            this.setStatus("SUCCESS", "Done");
         } catch (e) {
             this.setStatus("ERROR", "Error:" + e.toString());
             msg.__isError = true;

@@ -29,7 +29,7 @@
     "version": "0.0.1-beta"
   },
   "paths": {
-    "/api/v1/session/new": {
+    "/v1/session/new": {
       "post": {
         "tags": ["session"],
         "summary": "New Session",
@@ -45,7 +45,7 @@
         "security": [{ "HTTPBearer": [] }]
       }
     },
-    "/api/v1/session/{session_id}": {
+    "/v1/session/{session_id}": {
       "get": {
         "tags": ["session"],
         "summary": "Get Session",
@@ -106,7 +106,7 @@
         "security": [{ "HTTPBearer": [] }]
       }
     },
-    "/api/v1/sessions": {
+    "/v1/sessions": {
       "get": {
         "tags": ["session"],
         "summary": "List Sessions",
@@ -122,7 +122,7 @@
       }
     },
 
-    "/api/v1/session/step/add": {
+    "/v1/session/step/add": {
       "post": {
         "tags": ["session"],
         "summary": "Add Step",
@@ -153,7 +153,7 @@
         "security": [{ "HTTPBearer": [] }]
       }
     },
-    "/api/v1/session/step/delete": {
+    "/v1/session/step/delete": {
       "delete": {
         "tags": ["session"],
         "summary": "Delete Step",
@@ -184,7 +184,7 @@
         "security": [{ "HTTPBearer": [] }]
       }
     },
-    "/api/v1/session/clear": {
+    "/v1/session/clear": {
       "post": {
         "tags": ["session"],
         "summary": "Clear Session",
@@ -215,7 +215,7 @@
         "security": [{ "HTTPBearer": [] }]
       }
     },
-    "/api/v1/session/undo": {
+    "/v1/session/undo": {
       "post": {
         "tags": ["session"],
         "summary": "Session Undo",
@@ -229,7 +229,7 @@
         }
       }
     },
-    "/api/v1/session/redo": {
+    "/v1/session/redo": {
       "post": {
         "tags": ["session"],
         "summary": "Session Undo",
@@ -243,7 +243,7 @@
         }
       }
     },
-    "/api/v1/session/deploy": {
+    "/v1/session/deploy": {
       "post": {
         "tags": ["session"],
         "summary": "Session Deploy",
@@ -257,7 +257,7 @@
         }
       }
     },
-    "/api/v1/library/recipe/new": {
+    "/v1/library/recipe/new": {
       "post": {
         "tags": ["recipe", "recipe"],
         "summary": "Add Recipe",
@@ -271,7 +271,7 @@
         }
       }
     },
-    "/api/v1/library/recipe/{recipeId}": {
+    "/v1/library/recipe/{recipeId}": {
       "get": {
         "tags": ["recipe", "recipe"],
         "summary": "Get Recipe",
@@ -359,7 +359,7 @@
         }
       }
     },
-    "/api/v1/library/recipes": {
+    "/v1/library/recipes": {
       "get": {
         "tags": ["recipe", "recipe"],
         "summary": "List Recipes",
@@ -374,7 +374,7 @@
         "security": [{ "HTTPBearer": [] }]
       }
     },
-    "/api/v1/library/recipe/teach": {
+    "/v1/library/recipe/teach": {
       "post": {
         "tags": ["recipe", "recipe"],
         "summary": "Teach Recipe",
@@ -406,7 +406,7 @@
         "security": [{ "HTTPBearer": [] }]
       }
     },
-    "/api/v1/library/step/new": {
+    "/v1/library/step/new": {
       "post": {
         "tags": ["step", "step"],
         "summary": "Add Step",
@@ -420,7 +420,7 @@
         }
       }
     },
-    "/api/v1/library/step/{stepId}": {
+    "/v1/library/step/{stepId}": {
       "get": {
         "tags": ["step", "step"],
         "summary": "Get Step",
@@ -506,7 +506,7 @@
         }
       }
     },
-    "/api/v1/library/steps": {
+    "/v1/library/steps": {
       "get": {
         "tags": ["step", "step"],
         "summary": "List Steps",
@@ -521,7 +521,7 @@
         "security": [{ "HTTPBearer": [] }]
       }
     },
-    "/api/v1/library/step/teach": {
+    "/v1/library/step/teach": {
       "post": {
         "tags": ["step", "steps"],
         "summary": "Teach Step",

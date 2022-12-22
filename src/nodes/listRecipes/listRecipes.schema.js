@@ -15,7 +15,7 @@ class ListRecipes extends Node {
     static schema = new Schema({
         name: "list-recipes",
         label: "List Recipes",
-        category: "maya :: Recipe",
+        category: "Maya :: Recipe",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -30,7 +30,7 @@ class ListRecipes extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/recipes`,
+            url: `/v1/library/recipes`,
             method: "get",
             data: {},
 

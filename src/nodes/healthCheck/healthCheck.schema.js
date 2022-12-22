@@ -13,7 +13,7 @@ class HealthCheck extends Node {
     static schema = new Schema({
         name: "health-check",
         label: "Health Check",
-        category: "maya :: Health",
+        category: "Maya :: Health",
         isConfig: false,
         fields: {},
         color: "#37B954",

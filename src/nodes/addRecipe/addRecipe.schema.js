@@ -13,7 +13,7 @@ class AddRecipe extends Node {
     static schema = new Schema({
         name: "add-recipe",
         label: "Add Recipe",
-        category: "maya :: Recipe",
+        category: "Maya :: Recipe",
         isConfig: false,
         fields: {},
         color: "#37B954",
@@ -23,7 +23,7 @@ class AddRecipe extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/recipe/new`,
+            url: `/v1/library/recipe/new`,
             method: "post",
             data: {},
         };

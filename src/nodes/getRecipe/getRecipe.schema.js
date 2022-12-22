@@ -13,7 +13,7 @@ class GetRecipe extends Node {
     static schema = new Schema({
         name: "get-recipe",
         label: "Get Recipe",
-        category: "maya :: Recipe",
+        category: "Maya :: Recipe",
         isConfig: false,
         fields: {
             recipeId: new fields.Typed({
@@ -30,7 +30,7 @@ class GetRecipe extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/recipe/${vals.recipeId}`,
+            url: `/v1/library/recipe/${vals.recipeId}`,
             method: "get",
             data: {},
         };

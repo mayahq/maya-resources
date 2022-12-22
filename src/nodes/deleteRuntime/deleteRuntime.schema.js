@@ -1,5 +1,4 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
-const { MAYA_BACKEND_URL } = require("../../constants");
 const axios = require("../../util/axios");
 
 const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
@@ -16,7 +15,7 @@ class DeleteRuntime extends Node {
     static schema = new Schema({
         name: "delete-runtime",
         label: "Delete Runtime",
-        category: "maya :: Runtime",
+        category: "Maya :: Runtime",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -38,7 +37,7 @@ class DeleteRuntime extends Node {
         this.setStatus("PROGRESS", "Deleting...");
 
         const request = {
-            url: `${MAYA_BACKEND_URL}/api/v2/brains/${vals.runtimeId}`,
+            url: `${this.mayaBackendUrl}/api/v2/brains/${vals.runtimeId}`,
             method: "delete",
             data: {},
 

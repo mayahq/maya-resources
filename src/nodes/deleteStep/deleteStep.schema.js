@@ -13,7 +13,7 @@ class DeleteStep extends Node {
     static schema = new Schema({
         name: "delete-step",
         label: "Delete Step",
-        category: "maya :: Step",
+        category: "Maya :: Step",
         isConfig: false,
         fields: {
             stepId: new fields.Typed({
@@ -30,7 +30,7 @@ class DeleteStep extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/library/step/${vals.stepId}`,
+            url: `/v1/library/step/${vals.stepId}`,
             method: "delete",
             data: {},
         };

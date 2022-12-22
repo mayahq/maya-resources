@@ -15,7 +15,7 @@ class DeleteSession extends Node {
     static schema = new Schema({
         name: "delete-session",
         label: "Delete Session",
-        category: "maya :: Session",
+        category: "Maya :: Session",
         isConfig: false,
         fields: {
             auth: new fields.ConfigNode({
@@ -37,7 +37,7 @@ class DeleteSession extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/session/${vals.session_id}`,
+            url: `/v1/session/${vals.session_id}`,
             method: "delete",
             data: {},
 

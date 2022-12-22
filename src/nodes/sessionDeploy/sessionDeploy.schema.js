@@ -13,7 +13,7 @@ class SessionDeploy extends Node {
     static schema = new Schema({
         name: "session-deploy",
         label: "Session Deploy",
-        category: "maya :: Session",
+        category: "Maya :: Session",
         isConfig: false,
         fields: {},
         color: "#37B954",
@@ -23,7 +23,7 @@ class SessionDeploy extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/api/v1/session/deploy`,
+            url: `/v1/session/deploy`,
             method: "post",
             data: {},
         };

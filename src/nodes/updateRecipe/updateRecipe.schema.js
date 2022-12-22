@@ -13,7 +13,7 @@ class UpdateRecipe extends Node {
     static schema = new Schema({
         name: "update-recipe",
         label: "Update Recipe",
-        category: "maya :: Recipe",
+        category: "Maya :: Recipe",
         isConfig: false,
         fields: {
             recipeId: new fields.Typed({
