@@ -1,5 +1,6 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const axios = require("../../util/axios");
+const WorkspaceClient = require("../../util/workspace");
 
 const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
 
@@ -35,21 +36,15 @@ class DeleteRuntime extends Node {
 
     async onMessage(msg, vals) {
         this.setStatus("PROGRESS", "Deleting...");
-
-        const request = {
-            url: `${this.mayaBackendUrl}/api/v2/brains/${vals.runtimeId}`,
-            method: "delete",
-            data: {},
-
-            headers: {
-                Authorization: `apikey ${this.credentials.auth.key}`,
-            },
-        };
+        const client = new WorkspaceClient({
+            backendBaseUrl: this.mayaBackendUrl,
+            apiKey: this.credentials.auth.key,
+        })
 
         try {
-            const response = await axios(request);
-            msg.payload = response.data;
-            this.setStatus("SUCCESS", "Deleted");
+            const responseData = await client.deleteWorkspace(vals.runtimeId);
+            msg.payload = responseData
+            this.setStatus('SUCCESS', 'Done')
         } catch (e) {
             this.setStatus("ERROR", "Error:" + e.toString());
             msg.__isError = true;

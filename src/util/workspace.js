@@ -7,11 +7,28 @@ class WorkspaceClient {
         this.apiKey = apiKey
     }
 
-    async getWorkspace(workspaceId) {
+    async getWorkspace({ workspaceId, alias }) {
         const request = {
             url: `${this.backendBaseUrl}/api/v2/brains/${workspaceId}`,
             method: "get",
-            data: {},
+            data: {
+                workspaceId,
+                alias
+            },
+
+            headers: {
+                Authorization: `apikey ${this.apiKey}`,
+            },
+        };
+
+        const response = await axios(request)
+        return response.data
+    }
+
+    async getWorkspaceByAlias(alias) {
+        const request = {
+            url: `${this.backendBaseUrl}/api/v2/brains/getByAlias/${alias}`,
+            method: "get",
 
             headers: {
                 Authorization: `apikey ${this.apiKey}`,
@@ -38,6 +55,8 @@ class WorkspaceClient {
                 Authorization: `apikey ${this.apiKey}`,
             },
         };
+
+        console.log('createRequest', createRequest)
 
         const response = await axios(createRequest)
         return response.data
@@ -76,6 +95,21 @@ class WorkspaceClient {
 
         await poll(startConfirmationFunction, 1000, 120000)
         return startResponse.data
+    }
+
+    async deleteWorkspace(workspaceId) {
+        const request = {
+            url: `${this.backendBaseUrl}/api/v2/brains/${workspaceId}`,
+            method: "delete",
+            data: {},
+
+            headers: {
+                Authorization: `apikey ${this.apiKey}`,
+            },
+        };
+
+        const response = await axios(request)
+        return response.data
     }
 }
 

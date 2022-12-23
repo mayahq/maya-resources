@@ -71,10 +71,13 @@
     "repository": {
       "type": "git",
       "url": "git+.git"
+    },
+    "origin": {
+      "moduleId": "63a5c15cad7a29001c5ab16d"
     }
   },
   "dependencies": {
-    "@mayahq/module-sdk": "^2.3.3",
+    "@mayahq/module-sdk": "^2.3.5",
     "axios": "^1.2.1",
     "uuid": "^9.0.0",
     "ws": "^8.11.0"
