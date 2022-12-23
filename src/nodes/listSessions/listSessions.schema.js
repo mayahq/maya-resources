@@ -1,4 +1,5 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
+const { MAYA_PAC_URL } = require("../../constants");
 const axios = require("../../util/axios");
 
 const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
@@ -38,6 +39,8 @@ class ListSessions extends Node {
                 Authorization: `apikey ${this.credentials.auth.key}`,
             },
         };
+
+        console.log(MAYA_PAC_URL)
 
         try {
             console.log('the request', request)
