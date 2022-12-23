@@ -21,6 +21,13 @@
             payloadTyperequest_body: {
                 value: "str"
             },
+            file: {
+                value: "abc",
+                required: false
+            },
+            payloadTypefile: {
+                value: "str"
+            },
         },
         inputs: 1,
         outputs: 1,
@@ -49,6 +56,24 @@
             })
             $("#node-input-request_body").typedInput("type", this.payloadTyperequest_body)
 
+            if (this.payloadTypefile === null) {
+                if (this.file === "") {
+                    this.payloadTypefile = "date"
+                } else {
+                    this.payloadTypefile = "str"
+                }
+            } else if (this.payloadTypefile === 'string' || this.payloadTypefile === 'none') {
+                this.payloadTypefile = "str"
+            }
+
+            $("#node-input-payloadTypefile").val(this.payloadTypefile)
+            $("#node-input-file").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypefile"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-file").typedInput("type", this.payloadTypefile)
+
         },
         oneditsave: function() {},
         oneditcancel: function() {},
@@ -69,9 +94,14 @@
         <input type="text" id="node-input-auth"></input>
     </div>
     <div class="form-row">
-        <label for="node-input-request_body">undefined</label>
+        <label for="node-input-request_body">Request Body</label>
         <input type="text" id="node-input-request_body"></input>
         <input type="hidden" id="node-input-payloadTyperequest_body">
+    </div>
+    <div class="form-row">
+        <label for="node-input-file">File</label>
+        <input type="text" id="node-input-file"></input>
+        <input type="hidden" id="node-input-payloadTypefile">
     </div>
 </script>
 

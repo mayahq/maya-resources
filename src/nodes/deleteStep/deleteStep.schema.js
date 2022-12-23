@@ -1,6 +1,8 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const axios = require("../../util/axios");
 
+const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
+
 class DeleteStep extends Node {
     constructor(node, RED, opts) {
         super(node, RED, {
@@ -16,6 +18,11 @@ class DeleteStep extends Node {
         category: "Maya :: Step",
         isConfig: false,
         fields: {
+            auth: new fields.ConfigNode({
+                type: MayaResourcesAuth,
+                displayName: "Auth",
+            }),
+
             stepId: new fields.Typed({
                 type: "str",
                 allowedTypes: ["msg", "flow", "global"],
@@ -33,6 +40,10 @@ class DeleteStep extends Node {
             url: `/v1/library/step/${vals.stepId}`,
             method: "delete",
             data: {},
+
+            headers: {
+                Authorization: `apikey ${this.credentials.auth.key}`,
+            },
         };
 
         try {

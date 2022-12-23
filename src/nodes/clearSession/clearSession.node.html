@@ -21,20 +21,6 @@
             payloadTypesession_id: {
                 value: "str"
             },
-            instruction: {
-                value: "abc",
-                required: false
-            },
-            payloadTypeinstruction: {
-                value: "str"
-            },
-            from_scratch: {
-                value: "abc",
-                required: false
-            },
-            payloadTypefrom_scratch: {
-                value: "str"
-            },
         },
         inputs: 1,
         outputs: 1,
@@ -63,42 +49,6 @@
             })
             $("#node-input-session_id").typedInput("type", this.payloadTypesession_id)
 
-            if (this.payloadTypeinstruction === null) {
-                if (this.instruction === "") {
-                    this.payloadTypeinstruction = "date"
-                } else {
-                    this.payloadTypeinstruction = "str"
-                }
-            } else if (this.payloadTypeinstruction === 'string' || this.payloadTypeinstruction === 'none') {
-                this.payloadTypeinstruction = "str"
-            }
-
-            $("#node-input-payloadTypeinstruction").val(this.payloadTypeinstruction)
-            $("#node-input-instruction").typedInput({
-                default: "str",
-                typeField: $("#node-input-payloadTypeinstruction"),
-                types: ["msg", "flow", "global", "str"]
-            })
-            $("#node-input-instruction").typedInput("type", this.payloadTypeinstruction)
-
-            if (this.payloadTypefrom_scratch === null) {
-                if (this.from_scratch === "") {
-                    this.payloadTypefrom_scratch = "date"
-                } else {
-                    this.payloadTypefrom_scratch = "str"
-                }
-            } else if (this.payloadTypefrom_scratch === 'string' || this.payloadTypefrom_scratch === 'none') {
-                this.payloadTypefrom_scratch = "str"
-            }
-
-            $("#node-input-payloadTypefrom_scratch").val(this.payloadTypefrom_scratch)
-            $("#node-input-from_scratch").typedInput({
-                default: "str",
-                typeField: $("#node-input-payloadTypefrom_scratch"),
-                types: ["msg", "flow", "global", "str"]
-            })
-            $("#node-input-from_scratch").typedInput("type", this.payloadTypefrom_scratch)
-
         },
         oneditsave: function() {},
         oneditcancel: function() {},
@@ -122,16 +72,6 @@
         <label for="node-input-session_id">Session Id</label>
         <input type="text" id="node-input-session_id"></input>
         <input type="hidden" id="node-input-payloadTypesession_id">
-    </div>
-    <div class="form-row">
-        <label for="node-input-instruction">Instruction</label>
-        <input type="text" id="node-input-instruction"></input>
-        <input type="hidden" id="node-input-payloadTypeinstruction">
-    </div>
-    <div class="form-row">
-        <label for="node-input-from_scratch">From Scratch</label>
-        <input type="text" id="node-input-from_scratch"></input>
-        <input type="hidden" id="node-input-payloadTypefrom_scratch">
     </div>
 </script>
 

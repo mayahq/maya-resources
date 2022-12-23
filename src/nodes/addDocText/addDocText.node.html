@@ -1,0 +1,164 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("add-doc-text", {
+        category: "Maya :: Document",
+        color: "#37B954",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            storage_mode: {
+                value: "elastic",
+                required: false
+            },
+            payloadTypestorage_mode: {
+                value: "str"
+            },
+            documents: {
+                value: "",
+                required: false
+            },
+            payloadTypedocuments: {
+                value: "json"
+            },
+            source_type: {
+                value: "abc",
+                required: false
+            },
+            payloadTypesource_type: {
+                value: "str"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Add Doc Text"
+        },
+        paletteLabel: "Add Doc Text",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypestorage_mode === null) {
+                if (this.storage_mode === "") {
+                    this.payloadTypestorage_mode = "date"
+                } else {
+                    this.payloadTypestorage_mode = "str"
+                }
+            } else if (this.payloadTypestorage_mode === 'string' || this.payloadTypestorage_mode === 'none') {
+                this.payloadTypestorage_mode = "str"
+            }
+
+            $("#node-input-payloadTypestorage_mode").val(this.payloadTypestorage_mode)
+            $("#node-input-storage_mode").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypestorage_mode"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-storage_mode").typedInput("type", this.payloadTypestorage_mode)
+
+            if (this.payloadTypedocuments === null) {
+                if (this.documents === "") {
+                    this.payloadTypedocuments = "date"
+                } else {
+                    this.payloadTypedocuments = "json"
+                }
+            } else if (this.payloadTypedocuments === 'string' || this.payloadTypedocuments === 'none') {
+                this.payloadTypedocuments = "json"
+            }
+
+            $("#node-input-payloadTypedocuments").val(this.payloadTypedocuments)
+            $("#node-input-documents").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypedocuments"),
+                types: ["msg", "flow", "global", "json"]
+            })
+            $("#node-input-documents").typedInput("type", this.payloadTypedocuments)
+
+            if (this.payloadTypesource_type === null) {
+                if (this.source_type === "") {
+                    this.payloadTypesource_type = "date"
+                } else {
+                    this.payloadTypesource_type = "str"
+                }
+            } else if (this.payloadTypesource_type === 'string' || this.payloadTypesource_type === 'none') {
+                this.payloadTypesource_type = "str"
+            }
+
+            $("#node-input-payloadTypesource_type").val(this.payloadTypesource_type)
+            $("#node-input-source_type").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypesource_type"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-source_type").typedInput("type", this.payloadTypesource_type)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="add-doc-text">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-storage_mode">Storage Mode</label>
+        <input type="text" id="node-input-storage_mode"></input>
+        <input type="hidden" id="node-input-payloadTypestorage_mode">
+    </div>
+    <div class="form-row">
+        <label for="node-input-documents">Documents</label>
+        <input type="text" id="node-input-documents"></input>
+        <input type="hidden" id="node-input-payloadTypedocuments">
+    </div>
+    <div class="form-row">
+        <label for="node-input-source_type">Source Type</label>
+        <input type="text" id="node-input-source_type"></input>
+        <input type="hidden" id="node-input-payloadTypesource_type">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="add-doc-text">
+    <h2>Description</h2>
+    <p>The node docs</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

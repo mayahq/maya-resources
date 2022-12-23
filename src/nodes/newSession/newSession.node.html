@@ -14,6 +14,13 @@
                 type: "maya-resources-auth",
                 required: true
             },
+            from_recipe: {
+                value: "abc",
+                required: false
+            },
+            payloadTypefrom_recipe: {
+                value: "str"
+            },
         },
         inputs: 1,
         outputs: 1,
@@ -23,7 +30,26 @@
         },
         paletteLabel: "New Session",
         exportable: true,
-        oneditprepare: function() {},
+        oneditprepare: function() {
+            if (this.payloadTypefrom_recipe === null) {
+                if (this.from_recipe === "") {
+                    this.payloadTypefrom_recipe = "date"
+                } else {
+                    this.payloadTypefrom_recipe = "str"
+                }
+            } else if (this.payloadTypefrom_recipe === 'string' || this.payloadTypefrom_recipe === 'none') {
+                this.payloadTypefrom_recipe = "str"
+            }
+
+            $("#node-input-payloadTypefrom_recipe").val(this.payloadTypefrom_recipe)
+            $("#node-input-from_recipe").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypefrom_recipe"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-from_recipe").typedInput("type", this.payloadTypefrom_recipe)
+
+        },
         oneditsave: function() {},
         oneditcancel: function() {},
         oneditdelete: function() {},
@@ -41,6 +67,11 @@
     <div class="form-row">
         <label for="node-input-auth">Auth</label>
         <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-from_recipe">From Recipe</label>
+        <input type="text" id="node-input-from_recipe"></input>
+        <input type="hidden" id="node-input-payloadTypefrom_recipe">
     </div>
 </script>
 

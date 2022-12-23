@@ -1,0 +1,104 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("delete", {
+        category: "Maya :: Document",
+        color: "#37B954",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            document_id: {
+                value: "abc",
+                required: false
+            },
+            payloadTypedocument_id: {
+                value: "str"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Delete"
+        },
+        paletteLabel: "Delete",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypedocument_id === null) {
+                if (this.document_id === "") {
+                    this.payloadTypedocument_id = "date"
+                } else {
+                    this.payloadTypedocument_id = "str"
+                }
+            } else if (this.payloadTypedocument_id === 'string' || this.payloadTypedocument_id === 'none') {
+                this.payloadTypedocument_id = "str"
+            }
+
+            $("#node-input-payloadTypedocument_id").val(this.payloadTypedocument_id)
+            $("#node-input-document_id").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypedocument_id"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-document_id").typedInput("type", this.payloadTypedocument_id)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="delete">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-document_id">Document Id</label>
+        <input type="text" id="node-input-document_id"></input>
+        <input type="hidden" id="node-input-payloadTypedocument_id">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="delete">
+    <h2>Description</h2>
+    <p>The node docs</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

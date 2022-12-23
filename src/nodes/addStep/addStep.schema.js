@@ -1,6 +1,8 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const axios = require("../../util/axios");
 
+const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
+
 class AddStep extends Node {
     constructor(node, RED, opts) {
         super(node, RED, {
@@ -13,9 +15,35 @@ class AddStep extends Node {
     static schema = new Schema({
         name: "add-step",
         label: "Add Step",
-        category: "Maya :: Step",
+        category: "Maya :: Session",
         isConfig: false,
-        fields: {},
+        fields: {
+            auth: new fields.ConfigNode({
+                type: MayaResourcesAuth,
+                displayName: "Auth",
+            }),
+
+            session_id: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "Session Id",
+            }),
+
+            step_prompt: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "Step Prompt",
+            }),
+
+            position: new fields.Typed({
+                type: "num",
+                allowedTypes: ["msg", "flow", "global", "num"],
+                defaultVal: "abc",
+                displayName: "Position",
+            }),
+        },
         color: "#37B954",
     });
 
@@ -23,9 +51,17 @@ class AddStep extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/v1/library/step/new`,
+            url: `/v1/session/step/add`,
             method: "post",
-            data: {},
+            data: {
+                session_id: vals.session_id,
+                step_prompt: vals.step_prompt,
+                position: vals.position,
+            },
+
+            headers: {
+                Authorization: `apikey ${this.credentials.auth.key}`,
+            },
         };
 
         try {

@@ -1,6 +1,8 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const axios = require("../../util/axios");
 
+const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
+
 class SessionDeploy extends Node {
     constructor(node, RED, opts) {
         super(node, RED, {
@@ -15,7 +17,26 @@ class SessionDeploy extends Node {
         label: "Session Deploy",
         category: "Maya :: Session",
         isConfig: false,
-        fields: {},
+        fields: {
+            auth: new fields.ConfigNode({
+                type: MayaResourcesAuth,
+                displayName: "Auth",
+            }),
+
+            session_id: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "Session Id",
+            }),
+
+            workspace_id: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "Workspace Id",
+            }),
+        },
         color: "#37B954",
     });
 
@@ -25,7 +46,14 @@ class SessionDeploy extends Node {
         const request = {
             url: `/v1/session/deploy`,
             method: "post",
-            data: {},
+            data: {
+                session_id: vals.session_id,
+                workspace_id: vals.workspace_id,
+            },
+
+            headers: {
+                Authorization: `apikey ${this.credentials.auth.key}`,
+            },
         };
 
         try {

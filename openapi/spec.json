@@ -173,6 +173,7 @@
       },
       "/v1/session/step/add": {
         "post": {
+          "tags": ["session"],
           "summary": "Add Step",
           "operationId": "add_step_v1_session_step_add_post",
           "parameters": [
@@ -214,6 +215,7 @@
       },
       "/v1/session/step/delete": {
         "delete": {
+          "tags": ["session"],
           "summary": "Delete Step",
           "operationId": "delete_step_v1_session_step_delete_delete",
           "parameters": [
@@ -255,6 +257,7 @@
       },
       "/v1/session/clear": {
         "post": {
+          "tags": ["session"],
           "summary": "Clear Session",
           "operationId": "clear_session_v1_session_clear_post",
           "parameters": [
@@ -296,6 +299,7 @@
       },
       "/v1/session/change": {
         "post": {
+          "tags": ["session"],
           "summary": "Change Session",
           "operationId": "change_session_v1_session_change_post",
           "parameters": [
@@ -917,7 +921,7 @@
       "/v1/library/document/search": {
         "get": {
           "tags": ["document", "document"],
-          "summary": "Ask",
+          "summary": "Search Documents",
           "operationId": "ask_v1_library_document_search_get",
           "parameters": [
             {
@@ -963,7 +967,7 @@
       "/v1/library/document/ask": {
         "get": {
           "tags": ["document", "document"],
-          "summary": "Ask",
+          "summary": "Ask Question",
           "operationId": "ask_v1_library_document_ask_get",
           "parameters": [
             {
@@ -1003,7 +1007,7 @@
       "/v1/library/document/list": {
         "get": {
           "tags": ["document", "document"],
-          "summary": "Ask",
+          "summary": "List Documents",
           "operationId": "ask_v1_library_document_list_get",
           "parameters": [
             {
@@ -1131,6 +1135,7 @@
       },
       "/health": {
         "get": {
+            "tags": ["health"],    
           "summary": "Health Check",
           "operationId": "health_check_health_get",
           "responses": {
@@ -1522,11 +1527,6 @@
               "title": "Step Subflows",
               "type": "array",
               "items": { "type": "array", "items": { "type": "object" } }
-            },
-            "suggest_tests": {
-              "title": "Suggest Tests",
-              "type": "boolean",
-              "default": false
             }
           }
         },

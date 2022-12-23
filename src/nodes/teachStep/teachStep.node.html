@@ -14,12 +14,26 @@
                 type: "maya-resources-auth",
                 required: true
             },
-            request_body: {
-                value: "abc",
+            storage_mode: {
+                value: "elastic",
                 required: false
             },
-            payloadTyperequest_body: {
+            payloadTypestorage_mode: {
                 value: "str"
+            },
+            step_subflows: {
+                value: "",
+                required: false
+            },
+            payloadTypestep_subflows: {
+                value: "json"
+            },
+            suggest_tests: {
+                value: "false",
+                required: false
+            },
+            payloadTypesuggest_tests: {
+                value: "bool"
             },
         },
         inputs: 1,
@@ -31,23 +45,59 @@
         paletteLabel: "Teach Step",
         exportable: true,
         oneditprepare: function() {
-            if (this.payloadTyperequest_body === null) {
-                if (this.request_body === "") {
-                    this.payloadTyperequest_body = "date"
+            if (this.payloadTypestorage_mode === null) {
+                if (this.storage_mode === "") {
+                    this.payloadTypestorage_mode = "date"
                 } else {
-                    this.payloadTyperequest_body = "str"
+                    this.payloadTypestorage_mode = "str"
                 }
-            } else if (this.payloadTyperequest_body === 'string' || this.payloadTyperequest_body === 'none') {
-                this.payloadTyperequest_body = "str"
+            } else if (this.payloadTypestorage_mode === 'string' || this.payloadTypestorage_mode === 'none') {
+                this.payloadTypestorage_mode = "str"
             }
 
-            $("#node-input-payloadTyperequest_body").val(this.payloadTyperequest_body)
-            $("#node-input-request_body").typedInput({
+            $("#node-input-payloadTypestorage_mode").val(this.payloadTypestorage_mode)
+            $("#node-input-storage_mode").typedInput({
                 default: "str",
-                typeField: $("#node-input-payloadTyperequest_body"),
+                typeField: $("#node-input-payloadTypestorage_mode"),
                 types: ["msg", "flow", "global", "str"]
             })
-            $("#node-input-request_body").typedInput("type", this.payloadTyperequest_body)
+            $("#node-input-storage_mode").typedInput("type", this.payloadTypestorage_mode)
+
+            if (this.payloadTypestep_subflows === null) {
+                if (this.step_subflows === "") {
+                    this.payloadTypestep_subflows = "date"
+                } else {
+                    this.payloadTypestep_subflows = "json"
+                }
+            } else if (this.payloadTypestep_subflows === 'string' || this.payloadTypestep_subflows === 'none') {
+                this.payloadTypestep_subflows = "json"
+            }
+
+            $("#node-input-payloadTypestep_subflows").val(this.payloadTypestep_subflows)
+            $("#node-input-step_subflows").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypestep_subflows"),
+                types: ["msg", "flow", "global", "json"]
+            })
+            $("#node-input-step_subflows").typedInput("type", this.payloadTypestep_subflows)
+
+            if (this.payloadTypesuggest_tests === null) {
+                if (this.suggest_tests === "") {
+                    this.payloadTypesuggest_tests = "date"
+                } else {
+                    this.payloadTypesuggest_tests = "bool"
+                }
+            } else if (this.payloadTypesuggest_tests === 'string' || this.payloadTypesuggest_tests === 'none') {
+                this.payloadTypesuggest_tests = "bool"
+            }
+
+            $("#node-input-payloadTypesuggest_tests").val(this.payloadTypesuggest_tests)
+            $("#node-input-suggest_tests").typedInput({
+                default: "bool",
+                typeField: $("#node-input-payloadTypesuggest_tests"),
+                types: ["msg", "flow", "global", "bool"]
+            })
+            $("#node-input-suggest_tests").typedInput("type", this.payloadTypesuggest_tests)
 
         },
         oneditsave: function() {},
@@ -69,9 +119,19 @@
         <input type="text" id="node-input-auth"></input>
     </div>
     <div class="form-row">
-        <label for="node-input-request_body">undefined</label>
-        <input type="text" id="node-input-request_body"></input>
-        <input type="hidden" id="node-input-payloadTyperequest_body">
+        <label for="node-input-storage_mode">Storage Mode</label>
+        <input type="text" id="node-input-storage_mode"></input>
+        <input type="hidden" id="node-input-payloadTypestorage_mode">
+    </div>
+    <div class="form-row">
+        <label for="node-input-step_subflows">Step Subflows</label>
+        <input type="text" id="node-input-step_subflows"></input>
+        <input type="hidden" id="node-input-payloadTypestep_subflows">
+    </div>
+    <div class="form-row">
+        <label for="node-input-suggest_tests">Suggest Tests</label>
+        <input type="text" id="node-input-suggest_tests"></input>
+        <input type="hidden" id="node-input-payloadTypesuggest_tests">
     </div>
 </script>
 

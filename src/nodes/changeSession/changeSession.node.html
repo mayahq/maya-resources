@@ -1,5 +1,5 @@
 <script type='text/javascript'>
-    RED.nodes.registerType("deploy-session", {
+    RED.nodes.registerType("change-session", {
         category: "Maya :: Session",
         color: "#37B954",
         defaults: {
@@ -14,18 +14,18 @@
                 type: "maya-resources-auth",
                 required: true
             },
-            workspaceId: {
-                value: "<enter Workspace ID>",
+            session_id: {
+                value: "abc",
                 required: false
             },
-            payloadTypeworkspaceId: {
+            payloadTypesession_id: {
                 value: "str"
             },
-            sessionId: {
-                value: "<enter Session ID>",
+            diff: {
+                value: "abc",
                 required: false
             },
-            payloadTypesessionId: {
+            payloadTypediff: {
                 value: "str"
             },
         },
@@ -33,46 +33,46 @@
         outputs: 1,
         icon: "fa-file-code-o.png",
         label: function() {
-            return this.name || "Deploy Session"
+            return this.name || "Change Session"
         },
-        paletteLabel: "Deploy Session",
+        paletteLabel: "Change Session",
         exportable: true,
         oneditprepare: function() {
-            if (this.payloadTypeworkspaceId === null) {
-                if (this.workspaceId === "") {
-                    this.payloadTypeworkspaceId = "date"
+            if (this.payloadTypesession_id === null) {
+                if (this.session_id === "") {
+                    this.payloadTypesession_id = "date"
                 } else {
-                    this.payloadTypeworkspaceId = "str"
+                    this.payloadTypesession_id = "str"
                 }
-            } else if (this.payloadTypeworkspaceId === 'string' || this.payloadTypeworkspaceId === 'none') {
-                this.payloadTypeworkspaceId = "str"
+            } else if (this.payloadTypesession_id === 'string' || this.payloadTypesession_id === 'none') {
+                this.payloadTypesession_id = "str"
             }
 
-            $("#node-input-payloadTypeworkspaceId").val(this.payloadTypeworkspaceId)
-            $("#node-input-workspaceId").typedInput({
+            $("#node-input-payloadTypesession_id").val(this.payloadTypesession_id)
+            $("#node-input-session_id").typedInput({
                 default: "str",
-                typeField: $("#node-input-payloadTypeworkspaceId"),
+                typeField: $("#node-input-payloadTypesession_id"),
                 types: ["msg", "flow", "global", "str"]
             })
-            $("#node-input-workspaceId").typedInput("type", this.payloadTypeworkspaceId)
+            $("#node-input-session_id").typedInput("type", this.payloadTypesession_id)
 
-            if (this.payloadTypesessionId === null) {
-                if (this.sessionId === "") {
-                    this.payloadTypesessionId = "date"
+            if (this.payloadTypediff === null) {
+                if (this.diff === "") {
+                    this.payloadTypediff = "date"
                 } else {
-                    this.payloadTypesessionId = "str"
+                    this.payloadTypediff = "str"
                 }
-            } else if (this.payloadTypesessionId === 'string' || this.payloadTypesessionId === 'none') {
-                this.payloadTypesessionId = "str"
+            } else if (this.payloadTypediff === 'string' || this.payloadTypediff === 'none') {
+                this.payloadTypediff = "str"
             }
 
-            $("#node-input-payloadTypesessionId").val(this.payloadTypesessionId)
-            $("#node-input-sessionId").typedInput({
+            $("#node-input-payloadTypediff").val(this.payloadTypediff)
+            $("#node-input-diff").typedInput({
                 default: "str",
-                typeField: $("#node-input-payloadTypesessionId"),
+                typeField: $("#node-input-payloadTypediff"),
                 types: ["msg", "flow", "global", "str"]
             })
-            $("#node-input-sessionId").typedInput("type", this.payloadTypesessionId)
+            $("#node-input-diff").typedInput("type", this.payloadTypediff)
 
         },
         oneditsave: function() {},
@@ -84,7 +84,7 @@
     });
 </script>
 
-<script type="text/html" data-template-name="deploy-session">
+<script type="text/html" data-template-name="change-session">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
@@ -94,18 +94,18 @@
         <input type="text" id="node-input-auth"></input>
     </div>
     <div class="form-row">
-        <label for="node-input-workspaceId">Workspace ID</label>
-        <input type="text" id="node-input-workspaceId"></input>
-        <input type="hidden" id="node-input-payloadTypeworkspaceId">
+        <label for="node-input-session_id">Session Id</label>
+        <input type="text" id="node-input-session_id"></input>
+        <input type="hidden" id="node-input-payloadTypesession_id">
     </div>
     <div class="form-row">
-        <label for="node-input-sessionId">Session ID</label>
-        <input type="text" id="node-input-sessionId"></input>
-        <input type="hidden" id="node-input-payloadTypesessionId">
+        <label for="node-input-diff">Diff</label>
+        <input type="text" id="node-input-diff"></input>
+        <input type="hidden" id="node-input-payloadTypediff">
     </div>
 </script>
 
-<script type="text/html" data-help-name="deploy-session">
+<script type="text/html" data-help-name="change-session">
     <h2>Description</h2>
     <p>The node docs</p>
 

@@ -1,0 +1,164 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("verify-step", {
+        category: "Maya :: Step",
+        color: "#37B954",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            step_id: {
+                value: "abc",
+                required: false
+            },
+            payloadTypestep_id: {
+                value: "str"
+            },
+            input: {
+                value: "",
+                required: false
+            },
+            payloadTypeinput: {
+                value: "str"
+            },
+            output: {
+                value: "[object Object]",
+                required: false
+            },
+            payloadTypeoutput: {
+                value: "json"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Verify Step"
+        },
+        paletteLabel: "Verify Step",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypestep_id === null) {
+                if (this.step_id === "") {
+                    this.payloadTypestep_id = "date"
+                } else {
+                    this.payloadTypestep_id = "str"
+                }
+            } else if (this.payloadTypestep_id === 'string' || this.payloadTypestep_id === 'none') {
+                this.payloadTypestep_id = "str"
+            }
+
+            $("#node-input-payloadTypestep_id").val(this.payloadTypestep_id)
+            $("#node-input-step_id").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypestep_id"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-step_id").typedInput("type", this.payloadTypestep_id)
+
+            if (this.payloadTypeinput === null) {
+                if (this.input === "") {
+                    this.payloadTypeinput = "date"
+                } else {
+                    this.payloadTypeinput = "str"
+                }
+            } else if (this.payloadTypeinput === 'string' || this.payloadTypeinput === 'none') {
+                this.payloadTypeinput = "str"
+            }
+
+            $("#node-input-payloadTypeinput").val(this.payloadTypeinput)
+            $("#node-input-input").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeinput"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-input").typedInput("type", this.payloadTypeinput)
+
+            if (this.payloadTypeoutput === null) {
+                if (this.output === "") {
+                    this.payloadTypeoutput = "date"
+                } else {
+                    this.payloadTypeoutput = "json"
+                }
+            } else if (this.payloadTypeoutput === 'string' || this.payloadTypeoutput === 'none') {
+                this.payloadTypeoutput = "json"
+            }
+
+            $("#node-input-payloadTypeoutput").val(this.payloadTypeoutput)
+            $("#node-input-output").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypeoutput"),
+                types: ["msg", "flow", "global", "json"]
+            })
+            $("#node-input-output").typedInput("type", this.payloadTypeoutput)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="verify-step">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-step_id">Step Id</label>
+        <input type="text" id="node-input-step_id"></input>
+        <input type="hidden" id="node-input-payloadTypestep_id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-input">Input</label>
+        <input type="text" id="node-input-input"></input>
+        <input type="hidden" id="node-input-payloadTypeinput">
+    </div>
+    <div class="form-row">
+        <label for="node-input-output">Output</label>
+        <input type="text" id="node-input-output"></input>
+        <input type="hidden" id="node-input-payloadTypeoutput">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="verify-step">
+    <h2>Description</h2>
+    <p>The node docs</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

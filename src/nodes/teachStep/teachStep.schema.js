@@ -23,11 +23,25 @@ class TeachStep extends Node {
                 displayName: "Auth",
             }),
 
-            request_body: new fields.Typed({
+            storage_mode: new fields.Typed({
                 type: "str",
                 allowedTypes: ["msg", "flow", "global"],
-                defaultVal: "abc",
-                displayName: "undefined",
+                defaultVal: "elastic",
+                displayName: "Storage Mode",
+            }),
+
+            step_subflows: new fields.Typed({
+                type: "json",
+                allowedTypes: ["msg", "flow", "global", "json"],
+                defaultVal: [],
+                displayName: "Step Subflows",
+            }),
+
+            suggest_tests: new fields.Typed({
+                type: "bool",
+                allowedTypes: ["msg", "flow", "global", "bool"],
+                defaultVal: false,
+                displayName: "Suggest Tests",
             }),
         },
         color: "#37B954",
@@ -37,10 +51,11 @@ class TeachStep extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/v1/library/step/teach`,
+            url: `/v1/library/step/teach?suggest_tests=${vals.suggest_tests}`,
             method: "post",
             data: {
-                request_body: vals.request_body,
+                storage_mode: vals.storage_mode,
+                step_subflows: vals.step_subflows,
             },
 
             headers: {

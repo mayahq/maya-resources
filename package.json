@@ -1,69 +1,81 @@
 {
-  "name": "maya-resources",
-  "version": "1.0.0",
-  "description": "Maya module to control maya resources",
-  "main": "index.js",
-  "scripts": {},
-  "repository": {
-    "type": "git",
-    "url": "git+.git"
-  },
-  "author": "mayahq",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mayahq/mayadev/issues"
-  },
-  "homepage": "#readme",
-  "nodepath": "src/nodes",
-  "nodeRedModuleName": "maya-resources",
-  "node-red": {
-    "nodes": {
-      "generate": "src/nodes/generate/generate.node.js",
-      "instruct": "src/nodes/instruct/instruct.node.js",
-      "new-session": "src/nodes/newSession/newSession.node.js",
-      "get-session": "src/nodes/getSession/getSession.node.js",
-      "delete-session": "src/nodes/deleteSession/deleteSession.node.js",
-      "list-sessions": "src/nodes/listSessions/listSessions.node.js",
-      "add-step": "src/nodes/addStep/addStep.node.js",
-      "delete-step": "src/nodes/deleteStep/deleteStep.node.js",
-      "clear-session": "src/nodes/clearSession/clearSession.node.js",
-      "session-undo": "src/nodes/sessionUndo/sessionUndo.node.js",
-      "add-recipe": "src/nodes/addRecipe/addRecipe.node.js",
-      "get-recipe": "src/nodes/getRecipe/getRecipe.node.js",
-      "delete-recipe": "src/nodes/deleteRecipe/deleteRecipe.node.js",
-      "update-recipe": "src/nodes/updateRecipe/updateRecipe.node.js",
-      "list-recipes": "src/nodes/listRecipes/listRecipes.node.js",
-      "teach-recipe": "src/nodes/teachRecipe/teachRecipe.node.js",
-      "get-step": "src/nodes/getStep/getStep.node.js",
-      "update-step": "src/nodes/updateStep/updateStep.node.js",
-      "list-steps": "src/nodes/listSteps/listSteps.node.js",
-      "teach-step": "src/nodes/teachStep/teachStep.node.js",
-      "create-runtime": "src/nodes/createRuntime/createRuntime.node.js",
-      "get-runtime": "src/nodes/getRuntime/getRuntime.node.js",
-      "delete-runtime": "src/nodes/deleteRuntime/deleteRuntime.node.js",
-      "list-runtime": "src/nodes/listRuntime/listRuntime.node.js",
-      "health-check": "src/nodes/healthCheck/healthCheck.node.js",
-      "mayaResourcesAuth": "src/nodes/mayaResourcesAuth/mayaResourcesAuth.node.js",
-      "deploy-session": "src/nodes/deploySession/deploySession.node.js"
-    }
-  },
-  "mayaDetails": {
     "name": "maya-resources",
     "version": "1.0.0",
     "description": "Maya module to control maya resources",
-    "author": "mayahq",
-    "type": "git",
-    "needsUserProfile": false,
-    "thumbnail": "",
+    "main": "index.js",
+    "scripts": {},
     "repository": {
-      "type": "git",
-      "url": "git+.git"
+        "type": "git",
+        "url": "git+.git"
+    },
+    "author": "mayahq",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mayahq/mayadev/issues"
+    },
+    "homepage": "#readme",
+    "nodepath": "src/nodes",
+    "nodeRedModuleName": "maya-resources",
+    "node-red": {
+        "nodes": {
+            "generate": "src/nodes/generate/generate.node.js",
+            "instruct": "src/nodes/instruct/instruct.node.js",
+            "new-session": "src/nodes/newSession/newSession.node.js",
+            "get-session": "src/nodes/getSession/getSession.node.js",
+            "delete-session": "src/nodes/deleteSession/deleteSession.node.js",
+            "list-sessions": "src/nodes/listSessions/listSessions.node.js",
+            "add-step": "src/nodes/addStep/addStep.node.js",
+            "delete-step": "src/nodes/deleteStep/deleteStep.node.js",
+            "clear-session": "src/nodes/clearSession/clearSession.node.js",
+            "session-undo": "src/nodes/sessionUndo/sessionUndo.node.js",
+            "add-recipe": "src/nodes/addRecipe/addRecipe.node.js",
+            "get-recipe": "src/nodes/getRecipe/getRecipe.node.js",
+            "delete-recipe": "src/nodes/deleteRecipe/deleteRecipe.node.js",
+            "update-recipe": "src/nodes/updateRecipe/updateRecipe.node.js",
+            "list-recipes": "src/nodes/listRecipes/listRecipes.node.js",
+            "teach-recipe": "src/nodes/teachRecipe/teachRecipe.node.js",
+            "get-step": "src/nodes/getStep/getStep.node.js",
+            "update-step": "src/nodes/updateStep/updateStep.node.js",
+            "list-steps": "src/nodes/listSteps/listSteps.node.js",
+            "teach-step": "src/nodes/teachStep/teachStep.node.js",
+            "create-runtime": "src/nodes/createRuntime/createRuntime.node.js",
+            "get-runtime": "src/nodes/getRuntime/getRuntime.node.js",
+            "delete-runtime": "src/nodes/deleteRuntime/deleteRuntime.node.js",
+            "list-runtime": "src/nodes/listRuntime/listRuntime.node.js",
+            "health-check": "src/nodes/healthCheck/healthCheck.node.js",
+            "mayaResourcesAuth": "src/nodes/mayaResourcesAuth/mayaResourcesAuth.node.js",
+            "change-session": "src/nodes/changeSession/changeSession.node.js",
+            "session-deploy": "src/nodes/sessionDeploy/sessionDeploy.node.js",
+            "search-recipe": "src/nodes/searchRecipe/searchRecipe.node.js",
+            "delete-profile-recipe": "src/nodes/deleteProfileRecipe/deleteProfileRecipe.node.js",
+            "search-step": "src/nodes/searchStep/searchStep.node.js",
+            "clear-steps": "src/nodes/clearSteps/clearSteps.node.js",
+            "verify-step": "src/nodes/verifyStep/verifyStep.node.js",
+            "recommend": "src/nodes/recommend/recommend.node.js",
+            "delete": "src/nodes/delete/delete.node.js",
+            "search-documents": "src/nodes/searchDocuments/searchDocuments.node.js",
+            "ask-question": "src/nodes/askQuestion/askQuestion.node.js",
+            "list-documents": "src/nodes/listDocuments/listDocuments.node.js",
+            "add-doc-text": "src/nodes/addDocText/addDocText.node.js"
+        }
+    },
+    "mayaDetails": {
+        "name": "maya-resources",
+        "version": "1.0.0",
+        "description": "Maya module to control maya resources",
+        "author": "mayahq",
+        "type": "git",
+        "needsUserProfile": false,
+        "thumbnail": "",
+        "repository": {
+            "type": "git",
+            "url": "git+.git"
+        }
+    },
+    "dependencies": {
+        "@mayahq/module-sdk": "^2.3.3",
+        "axios": "^1.2.1",
+        "uuid": "^9.0.0",
+        "ws": "^8.11.0"
     }
-  },
-  "dependencies": {
-    "@mayahq/module-sdk": "^2.3.3",
-    "axios": "^1.2.1",
-    "uuid": "^9.0.0",
-    "ws": "^8.11.0"
-  }
 }

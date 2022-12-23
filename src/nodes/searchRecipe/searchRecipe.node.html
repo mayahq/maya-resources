@@ -1,0 +1,104 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("search-recipe", {
+        category: "Maya :: Recipe",
+        color: "#37B954",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            q: {
+                value: "",
+                required: false
+            },
+            payloadTypeq: {
+                value: "str"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Search Recipe"
+        },
+        paletteLabel: "Search Recipe",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeq === null) {
+                if (this.q === "") {
+                    this.payloadTypeq = "date"
+                } else {
+                    this.payloadTypeq = "str"
+                }
+            } else if (this.payloadTypeq === 'string' || this.payloadTypeq === 'none') {
+                this.payloadTypeq = "str"
+            }
+
+            $("#node-input-payloadTypeq").val(this.payloadTypeq)
+            $("#node-input-q").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeq"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-q").typedInput("type", this.payloadTypeq)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="search-recipe">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-q">Q</label>
+        <input type="text" id="node-input-q"></input>
+        <input type="hidden" id="node-input-payloadTypeq">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="search-recipe">
+    <h2>Description</h2>
+    <p>The node docs</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

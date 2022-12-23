@@ -1,6 +1,6 @@
 <script type='text/javascript'>
     RED.nodes.registerType("add-step", {
-        category: "Maya :: Step",
+        category: "Maya :: Session",
         color: "#37B954",
         defaults: {
             name: {
@@ -8,6 +8,32 @@
             },
             isProfileConfigNode: {
                 value: false
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            session_id: {
+                value: "abc",
+                required: false
+            },
+            payloadTypesession_id: {
+                value: "str"
+            },
+            step_prompt: {
+                value: "abc",
+                required: false
+            },
+            payloadTypestep_prompt: {
+                value: "str"
+            },
+            position: {
+                value: "abc",
+                required: false
+            },
+            payloadTypeposition: {
+                value: "num"
             },
         },
         inputs: 1,
@@ -18,7 +44,62 @@
         },
         paletteLabel: "Add Step",
         exportable: true,
-        oneditprepare: function() {},
+        oneditprepare: function() {
+            if (this.payloadTypesession_id === null) {
+                if (this.session_id === "") {
+                    this.payloadTypesession_id = "date"
+                } else {
+                    this.payloadTypesession_id = "str"
+                }
+            } else if (this.payloadTypesession_id === 'string' || this.payloadTypesession_id === 'none') {
+                this.payloadTypesession_id = "str"
+            }
+
+            $("#node-input-payloadTypesession_id").val(this.payloadTypesession_id)
+            $("#node-input-session_id").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypesession_id"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-session_id").typedInput("type", this.payloadTypesession_id)
+
+            if (this.payloadTypestep_prompt === null) {
+                if (this.step_prompt === "") {
+                    this.payloadTypestep_prompt = "date"
+                } else {
+                    this.payloadTypestep_prompt = "str"
+                }
+            } else if (this.payloadTypestep_prompt === 'string' || this.payloadTypestep_prompt === 'none') {
+                this.payloadTypestep_prompt = "str"
+            }
+
+            $("#node-input-payloadTypestep_prompt").val(this.payloadTypestep_prompt)
+            $("#node-input-step_prompt").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypestep_prompt"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-step_prompt").typedInput("type", this.payloadTypestep_prompt)
+
+            if (this.payloadTypeposition === null) {
+                if (this.position === "") {
+                    this.payloadTypeposition = "date"
+                } else {
+                    this.payloadTypeposition = "num"
+                }
+            } else if (this.payloadTypeposition === 'string' || this.payloadTypeposition === 'none') {
+                this.payloadTypeposition = "num"
+            }
+
+            $("#node-input-payloadTypeposition").val(this.payloadTypeposition)
+            $("#node-input-position").typedInput({
+                default: "num",
+                typeField: $("#node-input-payloadTypeposition"),
+                types: ["msg", "flow", "global", "num"]
+            })
+            $("#node-input-position").typedInput("type", this.payloadTypeposition)
+
+        },
         oneditsave: function() {},
         oneditcancel: function() {},
         oneditdelete: function() {},
@@ -32,6 +113,25 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-session_id">Session Id</label>
+        <input type="text" id="node-input-session_id"></input>
+        <input type="hidden" id="node-input-payloadTypesession_id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-step_prompt">Step Prompt</label>
+        <input type="text" id="node-input-step_prompt"></input>
+        <input type="hidden" id="node-input-payloadTypestep_prompt">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position">Position</label>
+        <input type="text" id="node-input-position"></input>
+        <input type="hidden" id="node-input-payloadTypeposition">
     </div>
 </script>
 

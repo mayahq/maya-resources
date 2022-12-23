@@ -29,20 +29,6 @@ class ClearSession extends Node {
                 defaultVal: "abc",
                 displayName: "Session Id",
             }),
-
-            instruction: new fields.Typed({
-                type: "str",
-                allowedTypes: ["msg", "flow", "global", "str"],
-                defaultVal: "abc",
-                displayName: "Instruction",
-            }),
-
-            from_scratch: new fields.Typed({
-                type: "str",
-                allowedTypes: ["msg", "flow", "global"],
-                defaultVal: "abc",
-                displayName: "From Scratch",
-            }),
         },
         color: "#37B954",
     });
@@ -55,8 +41,6 @@ class ClearSession extends Node {
             method: "post",
             data: {
                 session_id: vals.session_id,
-                instruction: vals.instruction,
-                from_scratch: vals.from_scratch,
             },
 
             headers: {

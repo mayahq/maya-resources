@@ -9,6 +9,25 @@
             isProfileConfigNode: {
                 value: false
             },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            session_id: {
+                value: "abc",
+                required: false
+            },
+            payloadTypesession_id: {
+                value: "str"
+            },
+            workspace_id: {
+                value: "abc",
+                required: false
+            },
+            payloadTypeworkspace_id: {
+                value: "str"
+            },
         },
         inputs: 1,
         outputs: 1,
@@ -18,7 +37,44 @@
         },
         paletteLabel: "Session Deploy",
         exportable: true,
-        oneditprepare: function() {},
+        oneditprepare: function() {
+            if (this.payloadTypesession_id === null) {
+                if (this.session_id === "") {
+                    this.payloadTypesession_id = "date"
+                } else {
+                    this.payloadTypesession_id = "str"
+                }
+            } else if (this.payloadTypesession_id === 'string' || this.payloadTypesession_id === 'none') {
+                this.payloadTypesession_id = "str"
+            }
+
+            $("#node-input-payloadTypesession_id").val(this.payloadTypesession_id)
+            $("#node-input-session_id").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypesession_id"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-session_id").typedInput("type", this.payloadTypesession_id)
+
+            if (this.payloadTypeworkspace_id === null) {
+                if (this.workspace_id === "") {
+                    this.payloadTypeworkspace_id = "date"
+                } else {
+                    this.payloadTypeworkspace_id = "str"
+                }
+            } else if (this.payloadTypeworkspace_id === 'string' || this.payloadTypeworkspace_id === 'none') {
+                this.payloadTypeworkspace_id = "str"
+            }
+
+            $("#node-input-payloadTypeworkspace_id").val(this.payloadTypeworkspace_id)
+            $("#node-input-workspace_id").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeworkspace_id"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-workspace_id").typedInput("type", this.payloadTypeworkspace_id)
+
+        },
         oneditsave: function() {},
         oneditcancel: function() {},
         oneditdelete: function() {},
@@ -32,6 +88,20 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-session_id">Session Id</label>
+        <input type="text" id="node-input-session_id"></input>
+        <input type="hidden" id="node-input-payloadTypesession_id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-workspace_id">Workspace Id</label>
+        <input type="text" id="node-input-workspace_id"></input>
+        <input type="hidden" id="node-input-payloadTypeworkspace_id">
     </div>
 </script>
 

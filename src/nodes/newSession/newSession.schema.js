@@ -22,6 +22,13 @@ class NewSession extends Node {
                 type: MayaResourcesAuth,
                 displayName: "Auth",
             }),
+
+            from_recipe: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "From Recipe",
+            }),
         },
         color: "#37B954",
     });
@@ -32,7 +39,9 @@ class NewSession extends Node {
         const request = {
             url: `/v1/session/new`,
             method: "post",
-            data: {},
+            data: {
+                from_recipe: vals.from_recipe,
+            },
 
             headers: {
                 Authorization: `apikey ${this.credentials.auth.key}`,

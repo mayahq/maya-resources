@@ -27,7 +27,14 @@ class TeachRecipe extends Node {
                 type: "str",
                 allowedTypes: ["msg", "flow", "global"],
                 defaultVal: "abc",
-                displayName: "undefined",
+                displayName: "Request Body",
+            }),
+
+            file: new fields.Typed({
+                type: "str",
+                allowedTypes: ["msg", "flow", "global", "str"],
+                defaultVal: "abc",
+                displayName: "File",
             }),
         },
         color: "#37B954",
@@ -41,6 +48,7 @@ class TeachRecipe extends Node {
             method: "post",
             data: {
                 request_body: vals.request_body,
+                file: vals.file,
             },
 
             headers: {
