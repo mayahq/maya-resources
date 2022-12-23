@@ -49,6 +49,7 @@ class NewSession extends Node {
         };
 
         try {
+            console.log('the request', request)
             const response = await axios(request);
             msg.payload = response.data;
             this.setStatus("SUCCESS", "Done");

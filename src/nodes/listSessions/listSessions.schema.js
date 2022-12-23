@@ -40,10 +40,10 @@ class ListSessions extends Node {
         };
 
         try {
+            console.log('the request', request)
             const response = await axios(request);
             msg.payload = response.data;
             this.setStatus("SUCCESS", "Done");
-            console.log('the request', request)
         } catch (e) {
             this.setStatus("ERROR", "Error:" + e.toString());
             msg.__isError = true;
