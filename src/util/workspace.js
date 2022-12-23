@@ -62,7 +62,7 @@ class WorkspaceClient {
         return response.data
     }
 
-    async startWorkspace(workspaceId) {
+    async startWorkspace(workspaceId, autoShutdownBehaviour) {
         const startRequest = {
             url: `${this.backendBaseUrl}/api/v2/brains/start`,
             method: 'post',
@@ -72,6 +72,10 @@ class WorkspaceClient {
             headers: {
                 Authorization: `apikey ${this.apiKey}`,
             }
+        }
+
+        if (autoShutdownBehaviour) {
+            startRequest.data.autoShutdownBehaviour = autoShutdownBehaviour
         }
 
         console.log('startRequest', startRequest)

@@ -61,7 +61,7 @@ class PersistentRuntime extends Node {
                     this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
                 } else {
                     this.setStatus('PROGRESS', 'Starting workspace')
-                    client.startWorkspace(workspace._id)
+                    client.startWorkspace(workspace._id, 'NEVER')
                         .then(() => {
                             this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
                         })
@@ -90,7 +90,7 @@ class PersistentRuntime extends Node {
                         const workspace = responseData.results
                         this.persistentWorkspace = workspace
                         this.setStatus('PROGRESS', 'Starting workspace')
-                        client.startWorkspace(workspace._id)
+                        client.startWorkspace(workspace._id, 'NEVER')
                             .then(() => {
                                 this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
                             })
