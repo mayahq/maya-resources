@@ -2,6 +2,7 @@ const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const axios = require('axios');
 const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema");
 const { poll } = require("../../util/poll");
+const WorkspaceClient = require("../../util/workspace");
 
 class CreateRuntime extends Node {
     constructor(node, RED, opts) {
@@ -42,91 +43,56 @@ class CreateRuntime extends Node {
 
     async onMessage(msg, vals) {
         this.setStatus("PROGRESS", "Processing...");
+        const client = new WorkspaceClient({
+            backendBaseUrl: this.mayaBackendUrl,
+            apiKey: this.credentials.auth.key,
+        })
 
-        console.log('url', this.mayaBackendUrl)
-
-        const createRequest = {
-            url: `${this.mayaBackendUrl}/api/v2/brains`,
-            method: "post",
-            data: {
-                name: vals.workspaceName,
-                default: false,
-                device: {
-                    platform: 'cloud'
-                }
-            },
-            headers: {
-                Authorization: `apikey ${this.credentials.auth.key}`,
-            },
-        };
-
+        let interval = null
         try {
-            const createResponse = await axios(createRequest);
-            msg.payload = createResponse.data;
-            
-            const brain = createResponse.data.results
+            // Create the workspace here
+            const createResponseData = await client.createWorkspace(vals.workspaceName, null);
+            msg.payload = createResponseData
+
+            const brain = createResponseData.results
             if (!vals.startAfterCreate) {
-                this.setStatus("SUCCESS", "Done");
+            this.setStatus('SUCCESS', 'Done.')
                 return msg;
             }
 
-            const startRequest = {
-                url: `${this.mayaBackendUrl}/api/v2/brains/start`,
-                method: 'post',
-                data: {
-                    _id: brain._id
-                },
-                headers: {
-                    Authorization: `apikey ${this.credentials.auth.key}`,
-                }
-            }
-
-            const startResponse = await axios(startRequest);
-            const startConfirmationFunction = async () => {
-                try {
-                    const healthStateResponse = await axios({
-                        url: startResponse['data']['results']['url'] + `/health?timesamp=${Date.now()}`,
-                        method: 'get',
-                        validateStatus: function (status) {
-                            return status;
-                        },
-                        timeout: 2000,
-                    });
-                    return healthStateResponse.status === 200;
-                } catch (e) {
-                    return false
-                }
-            }
-
+            // Fancy node status updates to show something is happening
             let num = 0
-            let dots = ['', '.', '..', '...']
-            const interval = setInterval(() => {
+            const dots = ['', '.', '..', '...']
+            interval = setInterval(() => {
                 this.setStatus("PROGRESS", `Starting runtime${dots[num % 4]}`)
                 num++
-            }, 1000)
+            }, 500)
+
+            // Start the workspace here
+            await client.startWorkspace(brain._id)
 
             try {
-                await poll(startConfirmationFunction, 1000, 120000);
                 clearInterval(interval)
-                this.setStatus("SUCCESS", "Done");
-                return msg
             } catch (e) {
-                clearInterval(interval)
-                if (e.type === 'TIMED_OUT') {
-                    this.setStatus("ERROR", "Timed out waiting for runtime to start");
-                } else {
-                    this.setStatus('ERROR', 'Unexpected error: ' + e.toString())
-                }
-                
-                msg.__isError = true;
-                msg.__error = e;
-                return msg;
+                console.log('Error clearing interval', e)
             }
+
+            this.setStatus('SUCCESS', 'Done.')
         } catch (e) {
-            this.setStatus("ERROR", "Error:" + e.toString());
+            try {
+                clearInterval(interval)
+            } catch (e) {}
+            
+            if (e.type === 'TIMED_OUT') {
+                this.setStatus("ERROR", "Error: Timed out while starting runtime");
+            } else {
+                this.setStatus("ERROR", "Error:" + e.toString());
+            }
+
             msg.__isError = true;
             msg.__error = e;
         }
+
 
         return msg;
     }
