@@ -44,7 +44,7 @@ class SearchDocuments extends Node {
         this.setStatus("PROGRESS", "Processing...");
 
         const request = {
-            url: `/v1/library/document/search?q=${vals.q}&limit=${valslimit}`,
+            url: `/v1/library/document/search?q=${vals.q}&limit=${vals.limit}`,
             method: "get",
             data: {},
 
