@@ -7,7 +7,8 @@ const { MAYA_PAC_URL } = require('../../constants')
 
 const WorkspaceClient = require('../../util/workspace')
 const MayaResourcesAuth = require('../mayaResourcesAuth/mayaResourcesAuth.schema')
-const axios = require('../../util/axios')
+const pacAxios = require('../../util/axios')
+const bareAxios = require('axios')
 
 class PersistentRuntime extends Node {
     constructor(node, RED, opts) {
@@ -113,9 +114,11 @@ class PersistentRuntime extends Node {
         const { type, data } = event
 
         let request = null
+        let axios = null
 
         switch (type) {
             case 'DEPLOY_SESSION': {
+                axios = pacAxios
                 const { sessionId } = data
                 request = {
                     url: `/v1/session/deploy`,
@@ -130,6 +133,22 @@ class PersistentRuntime extends Node {
                     },
                 };
                 break
+            }
+            
+            case 'SEND_MESSAGE': {
+                axios = bareAxios
+                const { message } = data
+                request = {
+                    url: `${this.persistentWorkspace.url}/send-message`,
+                    method: 'post',
+                    data: {
+                        data: message,
+                        from: this._mayaRuntimeId
+                    },
+                    headers: {
+                        Authorization: `apikey ${this.credentials.auth.key}`
+                    }
+                }
             }
 
             default: {

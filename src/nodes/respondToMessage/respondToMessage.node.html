@@ -1,0 +1,95 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("respond-to-message", {
+        category: "Maya :: Runtime",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            response: {
+                value: "payload",
+                required: false
+            },
+            payloadTyperesponse: {
+                value: "msg"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Respond to Message"
+        },
+        paletteLabel: "Respond to Message",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTyperesponse === null) {
+                if (this.response === "") {
+                    this.payloadTyperesponse = "date"
+                } else {
+                    this.payloadTyperesponse = "msg"
+                }
+            } else if (this.payloadTyperesponse === 'string' || this.payloadTyperesponse === 'none') {
+                this.payloadTyperesponse = "msg"
+            }
+
+            $("#node-input-payloadTyperesponse").val(this.payloadTyperesponse)
+            $("#node-input-response").typedInput({
+                default: "msg",
+                typeField: $("#node-input-payloadTyperesponse"),
+                types: ["json", "msg", "flow", "global"]
+            })
+            $("#node-input-response").typedInput("type", this.payloadTyperesponse)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="respond-to-message">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-response">Response</label>
+        <input type="text" id="node-input-response"></input>
+        <input type="hidden" id="node-input-payloadTyperesponse">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="respond-to-message">
+    <h2>Description</h2>
+    <p>The node docs</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>
