@@ -28,7 +28,6 @@
       "delete-step": "src/nodes/deleteStep/deleteStep.node.js",
       "clear-session": "src/nodes/clearSession/clearSession.node.js",
       "session-undo": "src/nodes/sessionUndo/sessionUndo.node.js",
-      "add-recipe": "src/nodes/addRecipe/addRecipe.node.js",
       "get-recipe": "src/nodes/getRecipe/getRecipe.node.js",
       "delete-recipe": "src/nodes/deleteRecipe/deleteRecipe.node.js",
       "update-recipe": "src/nodes/updateRecipe/updateRecipe.node.js",
@@ -59,7 +58,8 @@
       "add-doc-text": "src/nodes/addDocText/addDocText.node.js",
       "persistent-runtime": "src/nodes/persistentRuntime/persistentRuntime.node.js",
       "receive-message": "src/nodes/receiveMessage/receiveMessage.node.js",
-      "respond-to-message": "src/nodes/respondToMessage/respondToMessage.node.js"
+      "respond-to-message": "src/nodes/respondToMessage/respondToMessage.node.js",
+      "send-message": "src/nodes/sendMessage/sendMessage.node.js"
     }
   },
   "mayaDetails": {

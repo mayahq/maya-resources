@@ -129,7 +129,7 @@ class PersistentRuntime extends Node {
                     },
         
                     headers: {
-                        Authorization: `apikey ${this.credentials.auth.key}`,
+                        'x-api-key': this.credentials.auth.key,
                     },
                 };
                 break
@@ -146,7 +146,7 @@ class PersistentRuntime extends Node {
                         from: this._mayaRuntimeId
                     },
                     headers: {
-                        Authorization: `apikey ${this.credentials.auth.key}`
+                        'x-api-key': this.credentials.auth.key
                     }
                 }
             }

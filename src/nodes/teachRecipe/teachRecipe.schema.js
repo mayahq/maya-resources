@@ -52,7 +52,7 @@ class TeachRecipe extends Node {
             },
 
             headers: {
-                Authorization: `apikey ${this.credentials.auth.key}`,
+                'x-api-key': this.credentials.auth.key,
             },
         };
 
