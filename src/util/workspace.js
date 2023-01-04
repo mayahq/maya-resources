@@ -17,7 +17,7 @@ class WorkspaceClient {
             },
 
             headers: {
-                Authorization: `apikey ${this.apiKey}`,
+                'x-api-key': this.apiKey,
             },
         };
 
@@ -31,7 +31,7 @@ class WorkspaceClient {
             method: "get",
 
             headers: {
-                Authorization: `apikey ${this.apiKey}`,
+                'x-api-key': this.apiKey,
             },
         };
 
@@ -52,7 +52,7 @@ class WorkspaceClient {
                 }
             },
             headers: {
-                Authorization: `apikey ${this.apiKey}`,
+                'x-api-key': this.apiKey,
             },
         };
 
@@ -70,7 +70,7 @@ class WorkspaceClient {
                 _id: workspaceId
             },
             headers: {
-                Authorization: `apikey ${this.apiKey}`,
+                'x-api-key': this.apiKey,
             }
         }
 
@@ -108,7 +108,7 @@ class WorkspaceClient {
             data: {},
 
             headers: {
-                Authorization: `apikey ${this.apiKey}`,
+                'x-api-key': this.apiKey,
             },
         };
 
