@@ -53,6 +53,8 @@ class SearchDocuments extends Node {
             },
         };
 
+        console.log('axios request', request)
+
         try {
             const response = await axios(request);
             msg.payload = response.data;
