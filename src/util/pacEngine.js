@@ -1,8 +1,9 @@
 const { v4 } = require('uuid');
 const WebSocket = require('ws')
-const EventEmitter = require('events')
+const EventEmitter = require('events');
+const { PAC_COMMS_URL } = require('../constants');
 
-const COMMS_URL = process.env.PACCOMMS_URL ? `${process.env.PACCOMMS_URL}/socket` : 'ws://localhost:8080/socket'
+const COMMS_URL = PAC_COMMS_URL
 
 class PacTask extends EventEmitter {
 	constructor({ type, opts, eventName }) {
