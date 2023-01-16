@@ -41,7 +41,10 @@ class Generate extends Node {
     }
 
     async onMessage(msg, vals) {
-        const task = new GenerateTask({ sessionId: vals.sessionId })
+        const task = new GenerateTask({ 
+            sessionId: vals.sessionId,
+            apiKey: this.credentials.auth.key
+        })
         let stepsGenerated = 0
         task.on('stepGenerated', (data) => {
             const newMsg = { ...msg, payload: data }

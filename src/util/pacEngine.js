@@ -6,7 +6,7 @@ const { PAC_COMMS_URL } = require('../constants');
 const COMMS_URL = PAC_COMMS_URL
 
 class PacTask extends EventEmitter {
-	constructor({ type, opts, eventName }) {
+	constructor({ type, opts, eventName, apiKey }) {
 		super();
 		this.type = type;
 		this.opts = opts;
@@ -16,7 +16,8 @@ class PacTask extends EventEmitter {
 
 	execute() {
 		const connectionId = v4();
-		const socket = new WebSocket(`${COMMS_URL}?connId=${connectionId}`);
+		console.log('COMMS URL:', COMMS_URL)
+		const socket = new WebSocket(`${COMMS_URL}?connId=${connectionId}&apiKey=${this.apiKey}`);
 		const taskId = v4();
 
 		console.log('TaskID:', taskId);
@@ -55,19 +56,20 @@ class PacTask extends EventEmitter {
 }
 
 class GenerateTask extends PacTask {
-	constructor({ sessionId }) {
+	constructor({ sessionId, apiKey }) {
 		super({
 			type: 'GENERATE',
 			eventName: 'stepGenerated',
 			opts: {
 				session_id: sessionId,
 			},
+			apiKey,
 		});
 	}
 }
 
 class InstructTask extends PacTask {
-	constructor({ sessionId, instruction, fromScratch }) {
+	constructor({ sessionId, instruction, fromScratch, apiKey }) {
 		super({
 			type: 'INSTRUCT',
 			eventName: 'instructDone',
@@ -76,6 +78,7 @@ class InstructTask extends PacTask {
 				instruction,
 				from_scratch: fromScratch,
 			},
+			apiKey,
 		});
 	}
 }

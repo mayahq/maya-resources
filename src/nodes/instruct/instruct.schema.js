@@ -55,7 +55,8 @@ class Instruct extends Node {
         const task = new InstructTask({
             sessionId: vals.sessionId,
             instruction: vals.instruction,
-            fromScratch: vals.fromScratch
+            fromScratch: vals.fromScratch,
+            apiKey: this.credentials.auth.key
         })
         task.on('instructDone', (data) => {
             const newMsg = { ...msg, payload: data }
