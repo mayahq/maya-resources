@@ -50,6 +50,7 @@ class Generate extends Node {
             const newMsg = { ...msg, payload: data }
             stepsGenerated++
             this.setStatus('SUCCESS', `Received step ${stepsGenerated}`)
+            console.log('step:', data)
 
             this.redNode.send(newMsg)
         })
