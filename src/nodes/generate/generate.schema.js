@@ -59,7 +59,8 @@ class Generate extends Node {
             stepsGenerated++
             this.setStatus('SUCCESS', `Received step ${stepsGenerated}`)
             
-            if (msg?.payload?.status === 'complete') {
+            console.log('payload', data)
+            if (data?.status === 'complete') {
                 const newMsg = { ...msg, payload: globalContext.get(`genResults_${this.redNode.id}`)}
                 this.redNode.send(newMsg)
             } else { // Save data to context if its not a status message

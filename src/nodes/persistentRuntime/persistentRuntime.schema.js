@@ -139,7 +139,7 @@ class PersistentRuntime extends Node {
                 axios = bareAxios
                 const { message } = data
                 request = {
-                    url: `${this.persistentWorkspace.url}/send-message`,
+                    url: `${this.persistentWorkspace.url}/send-maya-message`,
                     method: 'post',
                     data: {
                         data: message,
