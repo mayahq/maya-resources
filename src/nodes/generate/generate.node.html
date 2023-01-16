@@ -21,6 +21,13 @@
             payloadTypesessionId: {
                 value: "str"
             },
+            sendEveryStep: {
+                value: "false",
+                required: false
+            },
+            payloadTypesendEveryStep: {
+                value: "bool"
+            },
         },
         inputs: 1,
         outputs: 1,
@@ -49,6 +56,24 @@
             })
             $("#node-input-sessionId").typedInput("type", this.payloadTypesessionId)
 
+            if (this.payloadTypesendEveryStep === null) {
+                if (this.sendEveryStep === "") {
+                    this.payloadTypesendEveryStep = "date"
+                } else {
+                    this.payloadTypesendEveryStep = "bool"
+                }
+            } else if (this.payloadTypesendEveryStep === 'string' || this.payloadTypesendEveryStep === 'none') {
+                this.payloadTypesendEveryStep = "bool"
+            }
+
+            $("#node-input-payloadTypesendEveryStep").val(this.payloadTypesendEveryStep)
+            $("#node-input-sendEveryStep").typedInput({
+                default: "bool",
+                typeField: $("#node-input-payloadTypesendEveryStep"),
+                types: ["bool", "msg", "flow", "global"]
+            })
+            $("#node-input-sendEveryStep").typedInput("type", this.payloadTypesendEveryStep)
+
         },
         oneditsave: function() {},
         oneditcancel: function() {},
@@ -72,6 +97,11 @@
         <label for="node-input-sessionId">Session Id</label>
         <input type="text" id="node-input-sessionId"></input>
         <input type="hidden" id="node-input-payloadTypesessionId">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sendEveryStep">Send msg on every step</label>
+        <input type="text" id="node-input-sendEveryStep"></input>
+        <input type="hidden" id="node-input-payloadTypesendEveryStep">
     </div>
 </script>
 

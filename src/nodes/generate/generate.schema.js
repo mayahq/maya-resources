@@ -1,6 +1,6 @@
 const {
     Node,
-    Schema, 
+    Schema,
     fields
 } = require('@mayahq/module-sdk')
 const { GenerateTask } = require('../../util/pacEngine')
@@ -31,6 +31,12 @@ class Generate extends Node {
                 defaultVal: "abc",
                 displayName: "Session Id",
             }),
+            sendEveryStep: new fields.Typed({
+                type: 'bool',
+                allowedTypes: ['bool', 'msg', 'flow', 'global'],
+                defaultVal: false,
+                displayName: 'Send msg on every step'
+            })
             // Whatever custom fields the node needs.
         },
         color: "#37B954",
@@ -46,13 +52,25 @@ class Generate extends Node {
             apiKey: this.credentials.auth.key
         })
         let stepsGenerated = 0
+        const globalContext = this.redNode.context().global
+        // globalContext.set(`genResults_${this.redNode.id}`)
+
         task.on('stepGenerated', (data) => {
-            const newMsg = { ...msg, payload: data }
             stepsGenerated++
             this.setStatus('SUCCESS', `Received step ${stepsGenerated}`)
-            console.log('step:', data)
+            
+            if (msg?.payload?.status === 'complete') {
+                const newMsg = { ...msg, payload: globalContext.get(`genResults_${this.redNode.id}`)}
+                this.redNode.send(newMsg)
+            } else { // Save data to context if its not a status message
+                globalContext.set(`genResults_${this.redNode.id}`, data)
+            }
 
-            this.redNode.send(newMsg)
+            if (vals.sendEveryStep) {
+                const newMsg = { ...msg, payload: data }
+                this.redNode.send(newMsg)
+            }
+            
         })
         setTimeout(() => {
             task.done()
