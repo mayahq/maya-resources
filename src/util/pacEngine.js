@@ -18,6 +18,7 @@ class PacTask extends EventEmitter {
 	execute() {
 		const connectionId = v4();
 		console.log('COMMS URL:', COMMS_URL)
+		console.log('api key:', this.apiKey)
 		const socket = new WebSocket(`${COMMS_URL}?connId=${connectionId}&apiKey=${this.apiKey}`);
 		const taskId = v4();
 
