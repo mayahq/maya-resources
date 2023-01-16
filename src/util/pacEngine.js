@@ -12,6 +12,7 @@ class PacTask extends EventEmitter {
 		this.opts = opts;
 		this.eventName = eventName;
 		this.closeEventName = `close::${v4()}`;
+		this.apiKey = apiKey
 	}
 
 	execute() {
