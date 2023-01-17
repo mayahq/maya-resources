@@ -106,6 +106,7 @@ class ReceiveMessage extends Node {
                     payload: req.body,
                     __returnResponse
                 })
+                console.log('wtf?', this.redNode.send)
             }
         )
         // Do something on initialization of node
