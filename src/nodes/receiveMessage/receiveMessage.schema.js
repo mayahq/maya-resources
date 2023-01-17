@@ -62,13 +62,16 @@ class ReceiveMessage extends Node {
             } else {
                 token = apiKeyHeader
             }
-            
+
+            console.log('got token:', token)
+
             tokenAuthFn(token)
                 .then(user => {
                     if (!user) {
                         return res.status(401).send('Unauthorized')
                     }
 
+                    console.log('got user', user)
                     next()
                 })
                 .catch(err => {
@@ -79,7 +82,7 @@ class ReceiveMessage extends Node {
                         console.log(err)
                     }
 
-                    return res.status()
+                    return res.status(500).send('Internal Server Error')
                 })
         }
 
@@ -98,6 +101,7 @@ class ReceiveMessage extends Node {
                     })
                 }
 
+                console.log('we here now too')
                 this.redNode.send({
                     payload: req.body,
                     __returnResponse
