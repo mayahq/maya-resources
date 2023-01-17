@@ -51,7 +51,9 @@ class SendMessage extends Node {
     }
 
     async onMessage(msg, vals) {
+        console.log('we here', vals)
         let isUrl = false
+
         try {
             const url = new URL(vals.targetWorkspace)
             if (
@@ -68,9 +70,13 @@ class SendMessage extends Node {
 
         let workspaceBaseUrl = null
 
+        console.log('we here 2')
+
         if (isUrl) {
             workspaceBaseUrl = vals.targetWorkspace
+            console.log('we here 3', workspaceBaseUrl)
         } else {
+            console.log('we here 4', workspaceBaseUrl)
             const targetId = vals.targetWorkspace
             const globalContext = this.redNode.context().global
             let urlMap = globalContext.get('workspaceUrls')
@@ -98,38 +104,41 @@ class SendMessage extends Node {
                 workspaceBaseUrl = workspace.url
             }
 
-            const request = {
-                url: path.join(workspaceBaseUrl, 'send-maya-message'),
-                method: 'post',
-                data: {
-                    data: vals.data,
-                    from: this._mayaRuntimeId
-                },
-                headers: {
-                    'x-api-key': this.credentials.auth.key
-                }
-            }
             
-            try {
-                const responsePromise = axios(request)
-                if (!vals.waitForResponse) {
-                    return msg
-                }
+        }
+        const request = {
+            url: path.join(workspaceBaseUrl, 'send-maya-message'),
+            method: 'post',
+            data: {
+                data: vals.data,
+                from: this._mayaRuntimeId
+            },
+            headers: {
+                'x-api-key': this.credentials.auth.key
+            }
+        }
+        
+        console.log('request', request)
 
-                const response = await responsePromise
-                msg.response = response.data
-            } catch (e) {
-                if (e.response) {
-                    console.log('Error in request to send message', e.response.status, e.response.data)
-                } else {
-                    console.log('Error in sending request', e)
-                }
-
-                msg.__isError = true
-                msg.__error = true
+        try {
+            const responsePromise = axios(request)
+            if (!vals.waitForResponse) {
                 return msg
             }
-            
+
+            const response = await responsePromise
+            msg.response = response.data
+            return msg
+        } catch (e) {
+            if (e.response) {
+                console.log('Error in request to send message', e.response.status, e.response.data)
+            } else {
+                console.log('Error in sending request', e)
+            }
+
+            msg.__isError = true
+            msg.__error = true
+            return msg
         }
 
     }

@@ -51,11 +51,18 @@ class ReceiveMessage extends Node {
         const tokenAuthMiddleware = (req, res, next) => {
             console.log('got req headers', req.headers)
             const authHeader = req.headers.authorization
-            if (!authHeader) {
+            const apiKeyHeader = req.headers['x-api-key']
+            if (!authHeader && !apiKeyHeader) {
                 return res.status(401).send('Unauthorized')
             }
 
-            const token = authHeader.split(' ')[1]
+            let token = ''
+            if (authHeader) {
+                token = authHeader.split(' ')[1]
+            } else {
+                token = apiKeyHeader
+            }
+            
             tokenAuthFn(token)
                 .then(user => {
                     if (!user) {
