@@ -121,17 +121,23 @@ class SendMessage extends Node {
         console.log('request', request)
 
         try {
+            this.setStatus('PROGRESS', 'Sending message')
             console.log('we here')
             const responsePromise = axios(request)
+            this.setStatus('SUCCESS', 'Message sent')
             if (!vals.waitForResponse) {
                 return msg
             }
-            
+
+            this.setStatus('PROGRESS', 'Waiting for response')
+
             const response = await responsePromise
             console.log('now we here')
             msg.response = response.data
+            this.setStatus('SUCCESS', 'Received response')
             return msg
         } catch (e) {
+            this.setStatus('ERROR', e.toString())
             if (e.response) {
                 console.log('Error in request to send message', e.response.status, e.response.data)
             } else {
