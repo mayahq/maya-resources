@@ -126,7 +126,7 @@ class SendMessage extends Node {
             if (!vals.waitForResponse) {
                 return msg
             }
-
+            
             const response = await responsePromise
             console.log('now we here')
             msg.response = response.data
