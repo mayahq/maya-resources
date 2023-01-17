@@ -121,12 +121,14 @@ class SendMessage extends Node {
         console.log('request', request)
 
         try {
+            console.log('we here')
             const responsePromise = axios(request)
             if (!vals.waitForResponse) {
                 return msg
             }
 
             const response = await responsePromise
+            console.log('now we here')
             msg.response = response.data
             return msg
         } catch (e) {
