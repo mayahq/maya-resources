@@ -1,224 +1,106 @@
 <script type='text/javascript'>
     RED.nodes.registerType("send-message", {
-            category: "Maya Resources",
-            color: "#8BBDD9",
-            defaults: {
-                name: {
-                    value: ""
-                },
-                isProfileConfigNode: {
-                    value: false
-                },
-                targetWorkspace: {
-                    value: "",
-                    required: false
-                },
-                payloadTypetargetWorkspace: {
-                    value: "str"
-                },
-                data: {
-                    value: "",
-                    required: false
-                },
-                payloadTypedata: {
-                    value: "json"
-                },
-                auth: {
-                    value: "",
-                    required: false
-                },
-                payloadTypeauth: {
-                    value: "class MayaResourcesAuth extends Node {
-                    constructor(node, RED, opts) {
-                        super(node, RED, {
-                            ...opts,
-                        });
-                    }
-
-                    static schema = new Schema({
-                        name: "maya-resources-auth",
-                        label: "Maya Resources :: Auth",
-                        category: "config",
-                        isConfig: true,
-                        fields: {},
-                        redOpts: {
-                            credentials: {
-                                key: new fields.Credential({
-                                    type: "str",
-                                    password: true
-                                }),
-                            },
-                        },
-                    });
-
-                    async onMessage(msg, vals) {}
-                }
-                " },
-                waitForResponse: {
-                    value: "",
-                    required: false
-                },
-                payloadTypewaitForResponse: {
-                    value: "bool"
-                },
+        category: "Maya :: Runtime",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
             },
-            inputs: 1,
-            outputs: 1,
-            icon: "fa-file-code-o.png",
-            label: function() {
-                return this.name || "send-message"
+            isProfileConfigNode: {
+                value: false
             },
-            paletteLabel: "send-message",
-            exportable: true,
-            oneditprepare: function() {
-                if (this.payloadTypetargetWorkspace === null) {
-                    if (this.targetWorkspace === "") {
-                        this.payloadTypetargetWorkspace = "date"
-                    } else {
-                        this.payloadTypetargetWorkspace = "str"
-                    }
-                } else if (this.payloadTypetargetWorkspace === 'string' || this.payloadTypetargetWorkspace === 'none') {
+            targetWorkspace: {
+                value: "",
+                required: false
+            },
+            payloadTypetargetWorkspace: {
+                value: "str"
+            },
+            data: {
+                value: "",
+                required: false
+            },
+            payloadTypedata: {
+                value: "json"
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            waitForResponse: {
+                value: "",
+                required: false
+            },
+            payloadTypewaitForResponse: {
+                value: "bool"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Send Message"
+        },
+        paletteLabel: "Send Message",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypetargetWorkspace === null) {
+                if (this.targetWorkspace === "") {
+                    this.payloadTypetargetWorkspace = "date"
+                } else {
                     this.payloadTypetargetWorkspace = "str"
                 }
+            } else if (this.payloadTypetargetWorkspace === 'string' || this.payloadTypetargetWorkspace === 'none') {
+                this.payloadTypetargetWorkspace = "str"
+            }
 
-                $("#node-input-payloadTypetargetWorkspace").val(this.payloadTypetargetWorkspace)
-                $("#node-input-targetWorkspace").typedInput({
-                    default: "str",
-                    typeField: $("#node-input-payloadTypetargetWorkspace"),
-                    types: ["str", "msg", "flow", "global"]
-                })
-                $("#node-input-targetWorkspace").typedInput("type", this.payloadTypetargetWorkspace)
+            $("#node-input-payloadTypetargetWorkspace").val(this.payloadTypetargetWorkspace)
+            $("#node-input-targetWorkspace").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypetargetWorkspace"),
+                types: ["str", "msg", "flow", "global"]
+            })
+            $("#node-input-targetWorkspace").typedInput("type", this.payloadTypetargetWorkspace)
 
-                if (this.payloadTypedata === null) {
-                    if (this.data === "") {
-                        this.payloadTypedata = "date"
-                    } else {
-                        this.payloadTypedata = "json"
-                    }
-                } else if (this.payloadTypedata === 'string' || this.payloadTypedata === 'none') {
+            if (this.payloadTypedata === null) {
+                if (this.data === "") {
+                    this.payloadTypedata = "date"
+                } else {
                     this.payloadTypedata = "json"
                 }
-
-                $("#node-input-payloadTypedata").val(this.payloadTypedata)
-                $("#node-input-data").typedInput({
-                    default: "json",
-                    typeField: $("#node-input-payloadTypedata"),
-                    types: ["json", "msg", "flow", "global"]
-                })
-                $("#node-input-data").typedInput("type", this.payloadTypedata)
-
-                if (this.payloadTypeauth === null) {
-                    if (this.auth === "") {
-                        this.payloadTypeauth = "date"
-                    } else {
-                        this.payloadTypeauth = "class MayaResourcesAuth extends Node {
-                        constructor(node, RED, opts) {
-                            super(node, RED, {
-                                ...opts,
-                            });
-                        }
-
-                        static schema = new Schema({
-                            name: "maya-resources-auth",
-                            label: "Maya Resources :: Auth",
-                            category: "config",
-                            isConfig: true,
-                            fields: {},
-                            redOpts: {
-                                credentials: {
-                                    key: new fields.Credential({
-                                        type: "str",
-                                        password: true
-                                    }),
-                                },
-                            },
-                        });
-
-                        async onMessage(msg, vals) {}
-                    }
-                    "
-                }
-            } else if (this.payloadTypeauth === 'string' || this.payloadTypeauth === 'none') {
-                this.payloadTypeauth = "class MayaResourcesAuth extends Node {
-                constructor(node, RED, opts) {
-                    super(node, RED, {
-                        ...opts,
-                    });
-                }
-
-                static schema = new Schema({
-                    name: "maya-resources-auth",
-                    label: "Maya Resources :: Auth",
-                    category: "config",
-                    isConfig: true,
-                    fields: {},
-                    redOpts: {
-                        credentials: {
-                            key: new fields.Credential({
-                                type: "str",
-                                password: true
-                            }),
-                        },
-                    },
-                });
-
-                async onMessage(msg, vals) {}
+            } else if (this.payloadTypedata === 'string' || this.payloadTypedata === 'none') {
+                this.payloadTypedata = "json"
             }
-            "                
-        }
 
-        $("#node-input-payloadTypeauth").val(this.payloadTypeauth) $("#node-input-auth").typedInput({
-                default: "class MayaResourcesAuth extends Node {
-                constructor(node, RED, opts) {
-                    super(node, RED, {
-                        ...opts,
-                    });
+            $("#node-input-payloadTypedata").val(this.payloadTypedata)
+            $("#node-input-data").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypedata"),
+                types: ["json", "msg", "flow", "global"]
+            })
+            $("#node-input-data").typedInput("type", this.payloadTypedata)
+
+            if (this.payloadTypewaitForResponse === null) {
+                if (this.waitForResponse === "") {
+                    this.payloadTypewaitForResponse = "date"
+                } else {
+                    this.payloadTypewaitForResponse = "bool"
                 }
-
-                static schema = new Schema({
-                    name: "maya-resources-auth",
-                    label: "Maya Resources :: Auth",
-                    category: "config",
-                    isConfig: true,
-                    fields: {},
-                    redOpts: {
-                        credentials: {
-                            key: new fields.Credential({
-                                type: "str",
-                                password: true
-                            }),
-                        },
-                    },
-                });
-
-                async onMessage(msg, vals) {}
+            } else if (this.payloadTypewaitForResponse === 'string' || this.payloadTypewaitForResponse === 'none') {
+                this.payloadTypewaitForResponse = "bool"
             }
-            ",
-            typeField: $("#node-input-payloadTypeauth"),
-            types: [null]
-        })
-    $("#node-input-auth").typedInput("type", this.payloadTypeauth)
 
-    if (this.payloadTypewaitForResponse === null) {
-        if (this.waitForResponse === "") {
-            this.payloadTypewaitForResponse = "date"
-        } else {
-            this.payloadTypewaitForResponse = "bool"
-        }
-    } else if (this.payloadTypewaitForResponse === 'string' || this.payloadTypewaitForResponse === 'none') {
-        this.payloadTypewaitForResponse = "bool"
-    }
+            $("#node-input-payloadTypewaitForResponse").val(this.payloadTypewaitForResponse)
+            $("#node-input-waitForResponse").typedInput({
+                default: "bool",
+                typeField: $("#node-input-payloadTypewaitForResponse"),
+                types: ["json", "msg", "flow", "global", "bool"]
+            })
+            $("#node-input-waitForResponse").typedInput("type", this.payloadTypewaitForResponse)
 
-    $("#node-input-payloadTypewaitForResponse").val(this.payloadTypewaitForResponse)
-    $("#node-input-waitForResponse").typedInput({
-        default: "bool",
-        typeField: $("#node-input-payloadTypewaitForResponse"),
-        types: ["json", "msg", "flow", "global", "bool"]
-    })
-    $("#node-input-waitForResponse").typedInput("type", this.payloadTypewaitForResponse)
-
-    },
-    oneditsave: function() {},
+        },
+        oneditsave: function() {},
         oneditcancel: function() {},
         oneditdelete: function() {},
         oneditresize: function() {},
@@ -245,7 +127,6 @@
     <div class="form-row">
         <label for="node-input-auth">Auth</label>
         <input type="text" id="node-input-auth"></input>
-        <input type="hidden" id="node-input-payloadTypeauth">
     </div>
     <div class="form-row">
         <label for="node-input-waitForResponse">Wait for response</label>

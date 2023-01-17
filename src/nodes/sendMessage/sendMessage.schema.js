@@ -18,8 +18,8 @@ class SendMessage extends Node {
 
     static schema = new Schema({
         name: 'send-message',
-        label: 'send-message',
-        category: 'Maya Resources',
+        label: 'Send Message',
+        category: 'Maya :: Runtime',
         isConfig: false,
         fields: {
             targetWorkspace: new fields.Typed({
@@ -32,7 +32,7 @@ class SendMessage extends Node {
                 allowedTypes: ['json', 'msg', 'flow', 'global'],
                 displayName: 'Data'
             }),
-            auth: new fields.Typed({
+            auth: new fields.ConfigNode({
                 type: MayaResourcesAuth,
                 displayName: 'Auth'
             }),
