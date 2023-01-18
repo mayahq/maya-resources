@@ -104,8 +104,8 @@ class ReceiveMessage extends Node {
                 }
 
                 console.log('we here now too')
-                this.redNode.warn('before send')
-                this.redNode.send({
+                this.redNode.warn('before send' + this.redNode.id)
+                nodeSend({
                     payload: req.body,
                     __returnResponse
                 })
