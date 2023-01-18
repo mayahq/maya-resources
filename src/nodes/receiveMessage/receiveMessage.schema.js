@@ -119,6 +119,7 @@ class ReceiveMessage extends Node {
         // Unregister the route when the flow stops
         this.redNode.on('close', function() {
             console.log('Running close handler')
+            console.log('stack:', this.RED.httpNode._router.stack)
             this.RED.httpNode._router.stack.forEach((route, i, routes) => {
                 if (
                     route.route && 
