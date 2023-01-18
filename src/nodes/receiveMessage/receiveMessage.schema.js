@@ -87,6 +87,29 @@ class ReceiveMessage extends Node {
                 })
         }
 
+        this.redNode.callback = function(req, res) {
+            console.log('received message data:', req.body)
+            const __returnResponse = (response) => {
+                res.status(200).send({
+                    data: response,
+                    from: this._mayaRuntimeId
+                })
+            }
+
+            console.log('we here now too')
+            this.redNode.warn('before send ' + this.redNode.id)
+            console.log('node is', this.redNode)
+            console.log('_flow is', this.redNode._flow)
+            this.redNode.send({
+                payload: req.body,
+                abc: 1,
+                _msgid: this.RED.util.generateId(),
+                __returnResponse
+            })
+            this.redNode.warn('after send')
+            console.log('wtf?', this.redNode.send)
+        }
+
         console.log('Starting endpoint listener')
         this.RED.httpNode.post(
             '/send-maya-message',
@@ -94,28 +117,7 @@ class ReceiveMessage extends Node {
             corsHandler,
             jsonParser,
             urlencParser,
-            (req, res) => {
-                console.log('received message data:', req.body)
-                const __returnResponse = (response) => {
-                    res.status(200).send({
-                        data: response,
-                        from: this._mayaRuntimeId
-                    })
-                }
-
-                console.log('we here now too')
-                this.redNode.warn('before send ' + this.redNode.id)
-                console.log('node is', this.redNode)
-                console.log('_flow is', this.redNode._flow)
-                this.redNode.send({
-                    payload: req.body,
-                    abc: 1,
-                    _msgid: this.RED.util.generateId()
-                    // __returnResponse
-                })
-                this.redNode.warn('after send')
-                console.log('wtf?', this.redNode.send)
-            },
+            this.redNode.callback,
             (err,req,res,next) => {
                 this.redNode.warn(err)
             }
