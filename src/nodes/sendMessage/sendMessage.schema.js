@@ -107,7 +107,7 @@ class SendMessage extends Node {
             
         }
         const request = {
-            url: path.join(workspaceBaseUrl, 'send-maya-message'),
+            url: `${workspaceBaseUrl}/send-maya-message`,
             method: 'post',
             data: {
                 data: vals.data,
