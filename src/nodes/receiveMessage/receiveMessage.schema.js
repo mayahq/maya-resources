@@ -39,6 +39,7 @@ class ReceiveMessage extends Node {
     onInit() {
         const corsHandler = cors(this.RED.settings.httpNodeCors);
         this.RED.httpNode.options("*", corsHandler);
+        const nodeSend = this.redNode.send
 
         const maxApiRequestSize = "1024mb";
         const jsonParser = bodyParser.json({ limit: maxApiRequestSize })
@@ -103,10 +104,12 @@ class ReceiveMessage extends Node {
                 }
 
                 console.log('we here now too')
+                this.redNode.warn('before send')
                 this.redNode.send({
                     payload: req.body,
                     __returnResponse
                 })
+                this.redNode.warn('after send')
                 console.log('wtf?', this.redNode.send)
             }
         )
