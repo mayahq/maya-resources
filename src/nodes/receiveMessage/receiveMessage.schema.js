@@ -115,6 +115,9 @@ class ReceiveMessage extends Node {
                 })
                 this.redNode.warn('after send')
                 console.log('wtf?', this.redNode.send)
+            },
+            (err,req,res,next) => {
+                this.redNode.warn(err)
             }
         )
         console.log('Listening now')
