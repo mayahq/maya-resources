@@ -109,7 +109,8 @@ class ReceiveMessage extends Node {
                 console.log('_flow is', this.redNode._flow)
                 this.redNode.send({
                     payload: req.body,
-                    abc: 1
+                    abc: 1,
+                    _msgid: this.RED.util.generateId()
                     // __returnResponse
                 })
                 this.redNode.warn('after send')
