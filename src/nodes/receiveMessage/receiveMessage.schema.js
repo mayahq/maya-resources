@@ -118,12 +118,14 @@ class ReceiveMessage extends Node {
 
         // Unregister the route when the flow stops
         this.redNode.on('close', function() {
+            console.log('Running close handler')
             this.RED.httpNode._router.stack.forEach((route, i, routes) => {
                 if (
                     route.route && 
                     route.route.path.contains('send-maya-message') &&
                     route.route.methods['post']
                 ) {
+                    console.log('Removing route', route.route)
                     routes.splice(i, 1)
                 }
             })
