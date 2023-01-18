@@ -86,6 +86,7 @@ class ReceiveMessage extends Node {
                 })
         }
 
+        console.log('Starting endpoint listener')
         this.RED.httpNode.post(
             '/send-maya-message',
             tokenAuthMiddleware,
@@ -109,6 +110,7 @@ class ReceiveMessage extends Node {
                 console.log('wtf?', this.redNode.send)
             }
         )
+        console.log('Listening now')
         // Do something on initialization of node
     }
 
