@@ -87,7 +87,7 @@ class ReceiveMessage extends Node {
                 })
         }
 
-        this.redNode.callback = function(req, res) {
+        this.redNode.callback = (req, res) => {
             console.log('received message data:', req.body)
             const __returnResponse = (response) => {
                 res.status(200).send({

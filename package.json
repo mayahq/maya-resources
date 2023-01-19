@@ -57,7 +57,7 @@
       "list-documents": "src/nodes/listDocuments/listDocuments.node.js",
       "add-doc-text": "src/nodes/addDocText/addDocText.node.js",
       "persistent-runtime": "src/nodes/persistentRuntime/persistentRuntime.node.js",
-      "receive-message": "src/nodes/receiveMessage/receiveMessage.node.js",
+      "receive-message": "src/specialNodes/receiveMessage/receiveMessage.js",
       "respond-to-message": "src/nodes/respondToMessage/respondToMessage.node.js",
       "send-message": "src/nodes/sendMessage/sendMessage.node.js"
     }
