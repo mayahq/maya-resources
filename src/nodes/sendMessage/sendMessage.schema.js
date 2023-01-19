@@ -43,6 +43,7 @@ class SendMessage extends Node {
                 default: true
             })
         },
+        color: '#37B954',
 
     })
 

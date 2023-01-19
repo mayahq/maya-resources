@@ -34,13 +34,7 @@ class RespondToMessage extends Node {
     }
 
     async onMessage(msg, vals) {
-        const responseToSend = vals.response
-        const sendFn = msg.__returnResponse
-
-        sendFn(responseToSend)
-        // Handle the message. The returned value will
-        // be sent as the message to any further nodes.
-
+        return msg.res._res.status(200).send(vals.response)
     }
 }
 
