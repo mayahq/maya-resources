@@ -149,6 +149,7 @@ class PersistentRuntime extends Node {
                         'x-api-key': this.credentials.auth.key
                     }
                 }
+                break
             }
 
             default: {
