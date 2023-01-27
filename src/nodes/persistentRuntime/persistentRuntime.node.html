@@ -9,6 +9,13 @@
             isProfileConfigNode: {
                 value: false
             },
+            search: {
+                value: "",
+                required: false
+            },
+            payloadTypesearch: {
+                value: "str"
+            },
             auth: {
                 value: "",
                 type: "maya-resources-auth",
@@ -31,6 +38,24 @@
         paletteLabel: "Persistent Runtime",
         exportable: true,
         oneditprepare: function() {
+            if (this.payloadTypesearch === null) {
+                if (this.search === "") {
+                    this.payloadTypesearch = "date"
+                } else {
+                    this.payloadTypesearch = "str"
+                }
+            } else if (this.payloadTypesearch === 'string' || this.payloadTypesearch === 'none') {
+                this.payloadTypesearch = "str"
+            }
+
+            $("#node-input-payloadTypesearch").val(this.payloadTypesearch)
+            $("#node-input-search").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypesearch"),
+                types: ["str", "flow", "global"]
+            })
+            $("#node-input-search").typedInput("type", this.payloadTypesearch)
+
             if (this.payloadTypeevent === null) {
                 if (this.event === "") {
                     this.payloadTypeevent = "date"
@@ -63,6 +88,11 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-search">Search</label>
+        <input type="text" id="node-input-search"></input>
+        <input type="hidden" id="node-input-payloadTypesearch">
     </div>
     <div class="form-row">
         <label for="node-input-auth">Auth</label>

@@ -9,7 +9,7 @@ class WorkspaceClient {
 
     async getWorkspace({ workspaceId, alias }) {
         const request = {
-            url: `${this.backendBaseUrl}/api/v2/brains/${workspaceId}`,
+            url: `${this.backendBaseUrl}/v2/brains/${workspaceId}`,
             method: "get",
             data: {
                 workspaceId,
@@ -27,7 +27,7 @@ class WorkspaceClient {
 
     async getWorkspaceByAlias(alias) {
         const request = {
-            url: `${this.backendBaseUrl}/api/v2/brains/getByAlias/${alias}`,
+            url: `${this.backendBaseUrl}/v2/brains/getByAlias/${alias}`,
             method: "get",
 
             headers: {
@@ -36,12 +36,34 @@ class WorkspaceClient {
         };
 
         const response = await axios(request)
-        return response.data
+        const results = response.data
+        if (results.length === 0) {
+            return null
+        } else {
+            return results[0]
+        }
+    }
+
+    async searchWorkspaceByName(name) {
+        const request = {
+            url: `${this.backendBaseUrl}/v2/brains/search?name=${name}`,
+            method: 'get',
+            headers: {
+                'x-api-key': this.apiKey
+            }
+        }
+
+        const response = await axios(request)
+        if (response.data.length === 0) {
+            return null
+        } else {
+            return response.data[0]
+        }
     }
 
     async createWorkspace(workspaceName, alias) {
         const createRequest = {
-            url: `${this.backendBaseUrl}/api/v2/brains`,
+            url: `${this.backendBaseUrl}/v2/brains`,
             method: "post",
             data: {
                 name: workspaceName,
@@ -64,7 +86,7 @@ class WorkspaceClient {
 
     async startWorkspace(workspaceId, autoShutdownBehaviour) {
         const startRequest = {
-            url: `${this.backendBaseUrl}/api/v2/brains/start`,
+            url: `${this.backendBaseUrl}/v2/brains/start`,
             method: 'post',
             data: {
                 _id: workspaceId
@@ -81,6 +103,8 @@ class WorkspaceClient {
         console.log('startRequest', startRequest)
 
         const startResponse = await axios(startRequest);
+
+        console.log('request completed')
         const startConfirmationFunction = async () => {
             try {
                 const healthStateResponse = await axios({
@@ -103,7 +127,7 @@ class WorkspaceClient {
 
     async deleteWorkspace(workspaceId) {
         const request = {
-            url: `${this.backendBaseUrl}/api/v2/brains/${workspaceId}`,
+            url: `${this.backendBaseUrl}/v2/brains/${workspaceId}`,
             method: "delete",
             data: {},
 

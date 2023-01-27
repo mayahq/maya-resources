@@ -24,6 +24,12 @@ class PersistentRuntime extends Node {
         category: 'Maya :: Runtime',
         isConfig: false,
         fields: {
+            search: new fields.Typed({
+                type: 'str',
+                allowedTypes: ['str', 'flow', 'global'],
+                displayName: 'Search',
+                default: 'worker-x'
+            }),
             auth: new fields.ConfigNode({
                 type: MayaResourcesAuth,
                 displayName: "Auth",
@@ -43,8 +49,14 @@ class PersistentRuntime extends Node {
         const nodeId = this.redNode.id
         const workspaceId = this._mayaRuntimeId
         const alias = `${workspaceId}_${nodeId}`
+        const name = this.constructor.schema.fields.search.resolveValue(
+            this.RED, 
+            'search',
+            this.redNode,
+            null,
+            {}
+        )
 
-        console.log('this', this)
 
         const client = new WorkspaceClient({
             backendBaseUrl: this.mayaBackendUrl,
@@ -53,50 +65,43 @@ class PersistentRuntime extends Node {
 
         console.log('brah')
         this.setStatus('PROGRESS', 'Initialising')
-        client.getWorkspaceByAlias(alias)
-            .then((responseData) => {
-                const workspace = responseData.results
-                console.log('the workspace', workspace)
-                this.persistentWorkspace = workspace
-                if (workspace.status === 'STARTED') {
-                    this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
-                } else {
-                    this.setStatus('PROGRESS', 'Starting workspace')
-                    client.startWorkspace(workspace._id, 'NEVER')
-                        .then(() => {
-                            this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
-                        })
-                        .catch((e) => {
-                            console.log('Error starting workspace')
-                            if (e.response) {
-                                console.log(e.response.status, e.response.data)
-                            } else {
-                                console.log(e)
-                            }
-                            this.setStatus('ERROR', 'Error:' + e.toString())
-                        })
-                }
-            })
-            .catch(e => {
-                console.log('errored here', e.response.data)
-                if (e?.response?.status !== 404) {
-                    this.setStatus('ERROR', 'Error getting workspace:' + e.toString())
-                    return console.log('Error getting workspace', e)
-                }
 
-                this.setStatus('PROGRESS', 'Creating workspace')
-                const rand = Math.floor(100 * Math.random())
-                client.createWorkspace(`C-${rand}`, alias)
-                    .then((responseData) => {
-                        const workspace = responseData.results
-                        this.persistentWorkspace = workspace
+        client.searchWorkspaceByName(name)
+            .then(workspace => {
+                console.log('we here', workspace)
+                // If no workspace exists, create one
+                if (workspace === null) {
+                    client.createWorkspace(name, alias)
+                        .then((responseData) => {
+                            const workspace = responseData.results
+                            this.persistentWorkspace = workspace
+                            this.setStatus('PROGRESS', 'Starting workspace')
+                            client.startWorkspace(workspace._id, 'NEVER')
+                                .then(() => {
+                                    this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+                                })
+                                .catch(e => {
+                                    console.log('Error starting workspace 1', workspace)
+                                    if (e.response) {
+                                        console.log(e.response.status, e.response.data)
+                                    } else {
+                                        console.log(e)
+                                    }
+                                    this.setStatus('ERROR', 'Error:' + e.toString())
+                                })
+                        })
+                } else {
+                    console.log('the workspace', workspace)
+                    if (workspace.status === 'STARTED') {
+                        this.setStatus('SUCCESS', `${workspace.name} connected`)
+                    } else {
                         this.setStatus('PROGRESS', 'Starting workspace')
                         client.startWorkspace(workspace._id, 'NEVER')
                             .then(() => {
-                                this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+                                this.setStatus('SUCCESS', `${workspace.name} connected`)
                             })
-                            .catch(e => {
-                                console.log('Error starting workspace')
+                            .catch((e) => {
+                                console.log('Error starting workspace 2', workspace)
                                 if (e.response) {
                                     console.log(e.response.status, e.response.data)
                                 } else {
@@ -104,9 +109,81 @@ class PersistentRuntime extends Node {
                                 }
                                 this.setStatus('ERROR', 'Error:' + e.toString())
                             })
-                    })
-
+                    }
+                }
             })
+            .catch(e => {
+                console.log('no we here')
+                console.log('Failed to latch on to worker')
+                this.rednode.error(e.message)
+                if (e.response) {
+                    console.log(e.response.status, e.response.data)
+                } else {
+                    console.log(e)
+                }
+                this.setStatus('ERROR', 'Failed to latch on to worker')
+            })
+
+
+
+
+
+
+
+        // client.getWorkspaceByAlias(alias)
+        //     .then((responseData) => {
+        //         const workspace = responseData.results
+        //         console.log('the workspace', workspace)
+        //         this.persistentWorkspace = workspace
+        //         if (workspace.status === 'STARTED') {
+        //             this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+        //         } else {
+        //             this.setStatus('PROGRESS', 'Starting workspace')
+        //             client.startWorkspace(workspace._id, 'NEVER')
+        //                 .then(() => {
+        //                     this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+        //                 })
+        //                 .catch((e) => {
+        //                     console.log('Error starting workspace')
+        //                     if (e.response) {
+        //                         console.log(e.response.status, e.response.data)
+        //                     } else {
+        //                         console.log(e)
+        //                     }
+        //                     this.setStatus('ERROR', 'Error:' + e.toString())
+        //                 })
+        //         }
+        //     })
+        //     .catch(e => {
+        //         console.log('errored here', e.response.data)
+        //         if (e?.response?.status !== 404) {
+        //             this.setStatus('ERROR', 'Error getting workspace:' + e.toString())
+        //             return console.log('Error getting workspace', e)
+        //         }
+
+        //         this.setStatus('PROGRESS', 'Creating workspace')
+        //         const rand = Math.floor(100 * Math.random())
+        //         client.createWorkspace(`C-${rand}`, alias)
+        //             .then((responseData) => {
+        //                 const workspace = responseData.results
+        //                 this.persistentWorkspace = workspace
+        //                 this.setStatus('PROGRESS', 'Starting workspace')
+        //                 client.startWorkspace(workspace._id, 'NEVER')
+        //                     .then(() => {
+        //                         this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+        //                     })
+        //                     .catch(e => {
+        //                         console.log('Error starting workspace')
+        //                         if (e.response) {
+        //                             console.log(e.response.status, e.response.data)
+        //                         } else {
+        //                             console.log(e)
+        //                         }
+        //                         this.setStatus('ERROR', 'Error:' + e.toString())
+        //                     })
+        //             })
+
+        //     })
     }
 
     async onMessage(msg, vals) {
