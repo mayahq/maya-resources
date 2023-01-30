@@ -68,7 +68,6 @@ class PersistentRuntime extends Node {
 
         client.searchWorkspaceByName(name)
             .then(workspace => {
-                console.log('we here', workspace)
                 // If no workspace exists, create one
                 if (workspace === null) {
                     client.createWorkspace(name, alias)
@@ -91,6 +90,7 @@ class PersistentRuntime extends Node {
                                 })
                         })
                 } else {
+                    this.persistentWorkspace = workspace
                     console.log('the workspace', workspace)
                     if (workspace.status === 'STARTED') {
                         this.setStatus('SUCCESS', `${workspace.name} connected`)
@@ -113,7 +113,6 @@ class PersistentRuntime extends Node {
                 }
             })
             .catch(e => {
-                console.log('no we here')
                 console.log('Failed to latch on to worker')
                 this.rednode.error(e.message)
                 if (e.response) {
@@ -123,67 +122,6 @@ class PersistentRuntime extends Node {
                 }
                 this.setStatus('ERROR', 'Failed to latch on to worker')
             })
-
-
-
-
-
-
-
-        // client.getWorkspaceByAlias(alias)
-        //     .then((responseData) => {
-        //         const workspace = responseData.results
-        //         console.log('the workspace', workspace)
-        //         this.persistentWorkspace = workspace
-        //         if (workspace.status === 'STARTED') {
-        //             this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
-        //         } else {
-        //             this.setStatus('PROGRESS', 'Starting workspace')
-        //             client.startWorkspace(workspace._id, 'NEVER')
-        //                 .then(() => {
-        //                     this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
-        //                 })
-        //                 .catch((e) => {
-        //                     console.log('Error starting workspace')
-        //                     if (e.response) {
-        //                         console.log(e.response.status, e.response.data)
-        //                     } else {
-        //                         console.log(e)
-        //                     }
-        //                     this.setStatus('ERROR', 'Error:' + e.toString())
-        //                 })
-        //         }
-        //     })
-        //     .catch(e => {
-        //         console.log('errored here', e.response.data)
-        //         if (e?.response?.status !== 404) {
-        //             this.setStatus('ERROR', 'Error getting workspace:' + e.toString())
-        //             return console.log('Error getting workspace', e)
-        //         }
-
-        //         this.setStatus('PROGRESS', 'Creating workspace')
-        //         const rand = Math.floor(100 * Math.random())
-        //         client.createWorkspace(`C-${rand}`, alias)
-        //             .then((responseData) => {
-        //                 const workspace = responseData.results
-        //                 this.persistentWorkspace = workspace
-        //                 this.setStatus('PROGRESS', 'Starting workspace')
-        //                 client.startWorkspace(workspace._id, 'NEVER')
-        //                     .then(() => {
-        //                         this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
-        //                     })
-        //                     .catch(e => {
-        //                         console.log('Error starting workspace')
-        //                         if (e.response) {
-        //                             console.log(e.response.status, e.response.data)
-        //                         } else {
-        //                             console.log(e)
-        //                         }
-        //                         this.setStatus('ERROR', 'Error:' + e.toString())
-        //                     })
-        //             })
-
-        //     })
     }
 
     async onMessage(msg, vals) {
