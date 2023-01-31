@@ -34,7 +34,11 @@ class RespondToMessage extends Node {
     }
 
     async onMessage(msg, vals) {
-        return msg.res._res.status(200).send(vals.response)
+        let response = vals.response
+        if (!(typeof response === 'string' || typeof response === 'object')) {
+            response = response.toString()
+        }
+        return msg.res._res.status(200).send(response)
     }
 }
 
