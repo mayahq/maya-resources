@@ -4,6 +4,7 @@ const {
     fields
 } = require('@mayahq/module-sdk')
 const { GenerateTask } = require('../../util/pacEngine')
+const WorkspaceClient = require('../../util/workspace')
 const MayaResourcesAuth = require('../mayaResourcesAuth/mayaResourcesAuth.schema')
 
 class Generate extends Node {
@@ -24,12 +25,17 @@ class Generate extends Node {
                 type: MayaResourcesAuth,
                 displayName: "Auth",
             }),
-
             sessionId: new fields.Typed({
                 type: "str",
                 allowedTypes: ["msg", "flow", "global", "str"],
                 defaultVal: "abc",
                 displayName: "Session Id",
+            }),
+            workspaceAlias: new fields.Typed({
+                type: 'str',
+                allowedTypes: ['msg', 'flow', 'global'],
+                defaultVal: '',
+                displayName: 'Worker alias'
             }),
             sendEveryStep: new fields.Typed({
                 type: 'bool',
@@ -47,8 +53,41 @@ class Generate extends Node {
     }
 
     async onMessage(msg, vals) {
+        const workspaceClient = new WorkspaceClient({
+            apiKey: this.credentials.auth.key,
+            backendBaseUrl: this.mayaBackendUrl
+        })
+
+        let sessionId = null
+        if (vals.sessionId) {
+            sessionId = vals.sessionId
+            
+        } else if (vals.workspaceAlias) {
+            const globalContext = this.redNode.context().global
+            const alias = vals.workspaceAlias
+            let aliasWorkspaceMap = globalContext.get('workspaceByAlias')
+
+            if (!aliasWorkspaceMap) {
+                aliasWorkspaceMap = {}
+                globalContext.set('workspaceByAlias', aliasWorkspaceMap)
+            }
+
+            try {
+                const workspace = await workspaceClient.getWorkspaceByAlias(alias)
+                sessionId = workspace.sessionId
+                aliasWorkspaceMap[alias] = workspace
+                globalContext.set('workspaceByAlias', aliasWorkspaceMap)
+            } catch (e) {
+                console.log('Workspace not found, oops', e?.response?.status, e?.response?.data)
+                msg.__isError = true
+                msg.__error = e
+                return msg
+            }
+        }
+
+
         const task = new GenerateTask({ 
-            sessionId: vals.sessionId,
+            sessionId: sessionId,
             apiKey: this.credentials.auth.key
         })
         let stepsGenerated = 0

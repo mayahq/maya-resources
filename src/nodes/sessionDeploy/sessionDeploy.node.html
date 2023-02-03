@@ -21,6 +21,13 @@
             payloadTypesession_id: {
                 value: "str"
             },
+            workspaceAlias: {
+                value: "",
+                required: false
+            },
+            payloadTypeworkspaceAlias: {
+                value: "str"
+            },
             workspace_id: {
                 value: "abc",
                 required: false
@@ -55,6 +62,24 @@
                 types: ["msg", "flow", "global", "str"]
             })
             $("#node-input-session_id").typedInput("type", this.payloadTypesession_id)
+
+            if (this.payloadTypeworkspaceAlias === null) {
+                if (this.workspaceAlias === "") {
+                    this.payloadTypeworkspaceAlias = "date"
+                } else {
+                    this.payloadTypeworkspaceAlias = "str"
+                }
+            } else if (this.payloadTypeworkspaceAlias === 'string' || this.payloadTypeworkspaceAlias === 'none') {
+                this.payloadTypeworkspaceAlias = "str"
+            }
+
+            $("#node-input-payloadTypeworkspaceAlias").val(this.payloadTypeworkspaceAlias)
+            $("#node-input-workspaceAlias").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeworkspaceAlias"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-workspaceAlias").typedInput("type", this.payloadTypeworkspaceAlias)
 
             if (this.payloadTypeworkspace_id === null) {
                 if (this.workspace_id === "") {
@@ -97,6 +122,11 @@
         <label for="node-input-session_id">Session Id</label>
         <input type="text" id="node-input-session_id"></input>
         <input type="hidden" id="node-input-payloadTypesession_id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-workspaceAlias">Worker alias</label>
+        <input type="text" id="node-input-workspaceAlias"></input>
+        <input type="hidden" id="node-input-payloadTypeworkspaceAlias">
     </div>
     <div class="form-row">
         <label for="node-input-workspace_id">Workspace Id</label>

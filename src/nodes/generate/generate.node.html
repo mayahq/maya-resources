@@ -21,6 +21,13 @@
             payloadTypesessionId: {
                 value: "str"
             },
+            workspaceAlias: {
+                value: "",
+                required: false
+            },
+            payloadTypeworkspaceAlias: {
+                value: "str"
+            },
             sendEveryStep: {
                 value: "false",
                 required: false
@@ -55,6 +62,24 @@
                 types: ["msg", "flow", "global", "str"]
             })
             $("#node-input-sessionId").typedInput("type", this.payloadTypesessionId)
+
+            if (this.payloadTypeworkspaceAlias === null) {
+                if (this.workspaceAlias === "") {
+                    this.payloadTypeworkspaceAlias = "date"
+                } else {
+                    this.payloadTypeworkspaceAlias = "str"
+                }
+            } else if (this.payloadTypeworkspaceAlias === 'string' || this.payloadTypeworkspaceAlias === 'none') {
+                this.payloadTypeworkspaceAlias = "str"
+            }
+
+            $("#node-input-payloadTypeworkspaceAlias").val(this.payloadTypeworkspaceAlias)
+            $("#node-input-workspaceAlias").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeworkspaceAlias"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-workspaceAlias").typedInput("type", this.payloadTypeworkspaceAlias)
 
             if (this.payloadTypesendEveryStep === null) {
                 if (this.sendEveryStep === "") {
@@ -97,6 +122,11 @@
         <label for="node-input-sessionId">Session Id</label>
         <input type="text" id="node-input-sessionId"></input>
         <input type="hidden" id="node-input-payloadTypesessionId">
+    </div>
+    <div class="form-row">
+        <label for="node-input-workspaceAlias">Worker alias</label>
+        <input type="text" id="node-input-workspaceAlias"></input>
+        <input type="hidden" id="node-input-payloadTypeworkspaceAlias">
     </div>
     <div class="form-row">
         <label for="node-input-sendEveryStep">Send msg on every step</label>

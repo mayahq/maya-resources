@@ -89,22 +89,22 @@ class SendMessage extends Node {
             console.log('we here 3', workspaceBaseUrl)
 
         } else if (vals.alias) {
-            let aliasUrlMap = globalContext.get('workspaceUrlsByAlias')
+            let aliasWorkspaceMap = globalContext.get('workspaceByAlias')
             const alias = vals.alias
 
-            if (!aliasUrlMap) {
-                aliasUrlMap = {}
-                globalContext.set('workspaceUrlsByAlias', aliasUrlMap)
+            if (!aliasWorkspaceMap) {
+                aliasWorkspaceMap = {}
+                globalContext.set('workspaceByAlias', aliasWorkspaceMap)
             }
 
-            if (aliasUrlMap[alias]) {
-                workspaceBaseUrl = aliasUrlMap[alias]
+            if (aliasWorkspaceMap[alias]) {
+                workspaceBaseUrl = aliasWorkspaceMap[alias].url
             } else {
                 try {
                     const workspace = await workspaceClient.getWorkspaceByAlias(alias)
                     workspaceBaseUrl = workspace.url
-                    aliasUrlMap[alias] = workspaceBaseUrl
-                    globalContext.set('workspaceUrlsByAlias', aliasUrlMap)
+                    aliasWorkspaceMap[alias] = workspace
+                    globalContext.set('workspaceByAlias', aliasWorkspaceMap)
                 } catch (e) {
                     console.log('Workspace not found, oops', e?.response?.status, e?.response?.data)
                     msg.__isError = true
