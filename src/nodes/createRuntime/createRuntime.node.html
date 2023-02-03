@@ -21,11 +21,25 @@
             payloadTypeworkspaceName: {
                 value: "str"
             },
+            alias: {
+                value: "test-alias",
+                required: true
+            },
+            payloadTypealias: {
+                value: "str"
+            },
             startAfterCreate: {
                 value: "true",
                 required: true
             },
             payloadTypestartAfterCreate: {
+                value: "bool"
+            },
+            persist: {
+                value: "true",
+                required: true
+            },
+            payloadTypepersist: {
                 value: "bool"
             },
         },
@@ -56,6 +70,24 @@
             })
             $("#node-input-workspaceName").typedInput("type", this.payloadTypeworkspaceName)
 
+            if (this.payloadTypealias === null) {
+                if (this.alias === "") {
+                    this.payloadTypealias = "date"
+                } else {
+                    this.payloadTypealias = "str"
+                }
+            } else if (this.payloadTypealias === 'string' || this.payloadTypealias === 'none') {
+                this.payloadTypealias = "str"
+            }
+
+            $("#node-input-payloadTypealias").val(this.payloadTypealias)
+            $("#node-input-alias").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypealias"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-alias").typedInput("type", this.payloadTypealias)
+
             if (this.payloadTypestartAfterCreate === null) {
                 if (this.startAfterCreate === "") {
                     this.payloadTypestartAfterCreate = "date"
@@ -73,6 +105,24 @@
                 types: ["msg", "flow", "global", "bool"]
             })
             $("#node-input-startAfterCreate").typedInput("type", this.payloadTypestartAfterCreate)
+
+            if (this.payloadTypepersist === null) {
+                if (this.persist === "") {
+                    this.payloadTypepersist = "date"
+                } else {
+                    this.payloadTypepersist = "bool"
+                }
+            } else if (this.payloadTypepersist === 'string' || this.payloadTypepersist === 'none') {
+                this.payloadTypepersist = "bool"
+            }
+
+            $("#node-input-payloadTypepersist").val(this.payloadTypepersist)
+            $("#node-input-persist").typedInput({
+                default: "bool",
+                typeField: $("#node-input-payloadTypepersist"),
+                types: ["msg", "flow", "global", "bool"]
+            })
+            $("#node-input-persist").typedInput("type", this.payloadTypepersist)
 
         },
         oneditsave: function() {},
@@ -99,9 +149,19 @@
         <input type="hidden" id="node-input-payloadTypeworkspaceName">
     </div>
     <div class="form-row">
+        <label for="node-input-alias">Alias</label>
+        <input type="text" id="node-input-alias"></input>
+        <input type="hidden" id="node-input-payloadTypealias">
+    </div>
+    <div class="form-row">
         <label for="node-input-startAfterCreate">Start After Create</label>
         <input type="text" id="node-input-startAfterCreate"></input>
         <input type="hidden" id="node-input-payloadTypestartAfterCreate">
+    </div>
+    <div class="form-row">
+        <label for="node-input-persist">Persist</label>
+        <input type="text" id="node-input-persist"></input>
+        <input type="hidden" id="node-input-payloadTypepersist">
     </div>
 </script>
 

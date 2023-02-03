@@ -30,10 +30,24 @@ class CreateRuntime extends Node {
                 defaultVal: "",
                 required: true,
             }),
+            alias: new fields.Typed({
+                type: 'str',
+                allowedTypes: ['msg', 'flow', 'global'],
+                displayName: 'Alias',
+                defaultVal: 'test-alias',
+                required: true
+            }),
             startAfterCreate: new fields.Typed({
                 type: "bool",
                 allowedTypes: ["msg", "flow", "global"],
                 displayName: "Start After Create",
+                defaultVal: true,
+                required: true,
+            }),
+            persist: new fields.Typed({
+                type: "bool",
+                allowedTypes: ["msg", "flow", "global"],
+                displayName: "Persist",
                 defaultVal: true,
                 required: true,
             }),
@@ -48,53 +62,140 @@ class CreateRuntime extends Node {
             apiKey: this.credentials.auth.key,
         })
 
-        let interval = null
-        try {
-            // Create the workspace here
-            const createResponseData = await client.createWorkspace(vals.workspaceName, null);
-            msg.payload = createResponseData
+        const nodeId = this.redNode.id
+        const workspaceId = this._mayaRuntimeId
+        // const alias = `${workspaceId}_${nodeId}`
+        const alias = vals.alias
 
-            const brain = createResponseData.results
-            if (!vals.startAfterCreate) {
-            this.setStatus('SUCCESS', 'Done.')
-                return msg;
-            }
+        if (vals.persist) {
+            client.getWorkspaceByAlias(alias)
+                .then((responseData) => {
+                    console.log('responseData', responseData)
+                    const workspace = responseData
+                    msg.payload = workspace
+                    msg.createdNew = false
 
-            // Fancy node status updates to show something is happening
-            let num = 0
-            const dots = ['', '.', '..', '...']
-            interval = setInterval(() => {
-                this.setStatus("PROGRESS", `Starting runtime${dots[num % 4]}`)
-                num++
-            }, 500)
+                    console.log('the workspace already exists', workspace)
 
-            // Start the workspace here
-            await client.startWorkspace(brain._id)
+                    if (!vals.startAfterCreate) {
+                        return this.redNode.send(msg)
+                    }
 
+                    if (workspace.status === 'STARTED') {
+                        this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+                        this.redNode.send(msg)
+                    } else {
+                        this.setStatus('PROGRESS', 'Starting workspace')
+                        client.startWorkspace(workspace._id, 'NEVER')
+                            .then(() => {
+                                this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+                                this.redNode.send(msg)
+                            })
+                            .catch((e) => {
+                                console.log('Error starting workspace')
+                                if (e.response) {
+                                    console.log(e.response.status, e.response.data)
+                                } else {
+                                    console.log(e)
+                                }
+                                this.setStatus('ERROR', 'Error:' + e.toString())
+                                msg.__error = e
+                                msg.__isError = true
+                                this.redNode.send(msg)
+                            })
+                    }
+                })
+                .catch(e => {
+                    console.log('errored here', e)
+                    if (e?.response?.status !== 404) {
+                        this.setStatus('ERROR', 'Error getting workspace:' + e.toString())
+                        return console.log('Error getting workspace', e)
+                    }
+
+                    this.setStatus('PROGRESS', 'Creating workspace')
+                    const rand = Math.floor(100 * Math.random())
+                    client.createWorkspace(vals.workspaceName || `C-${rand}`, alias)
+                        .then((responseData) => {
+                            const workspace = responseData.results
+                            msg.payload = workspace
+                            msg.createdNew = true
+
+                            if (!vals.startAfterCreate) {
+                                return this.redNode.send(msg)
+                            }
+
+                            this.setStatus('PROGRESS', 'Starting workspace')
+
+                            client.startWorkspace(workspace._id, 'NEVER')
+                                .then(() => {
+                                    this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+                                    return this.redNode.send(msg)
+                                })
+                                .catch(e => {
+                                    console.log('Error starting workspace')
+                                    if (e.response) {
+                                        console.log(e.response.status, e.response.data)
+                                    } else {
+                                        console.log(e)
+                                    }
+                                    this.setStatus('ERROR', 'Error:' + e.toString())
+                                    msg.__isError = true
+                                    msg.__error = e
+                                    return this.redNode.send(msg)
+                                })
+                        })
+
+                })
+        } else {
+            let interval = null
             try {
-                clearInterval(interval)
+                // Create the workspace here
+                const createResponseData = await client.createWorkspace(vals.workspaceName, null);
+                msg.payload = createResponseData.results
+    
+                const brain = createResponseData.results
+                if (!vals.startAfterCreate) {
+                this.setStatus('SUCCESS', 'Done.')
+                    return msg;
+                }
+    
+                // Fancy node status updates to show something is happening
+                let num = 0
+                const dots = ['', '.', '..', '...']
+                interval = setInterval(() => {
+                    this.setStatus("PROGRESS", `Starting runtime${dots[num % 4]}`)
+                    num++
+                }, 500)
+    
+                // Start the workspace here
+                await client.startWorkspace(brain._id)
+    
+                try {
+                    clearInterval(interval)
+                } catch (e) {
+                    console.log('Error clearing interval', e)
+                }
+    
+                this.setStatus('SUCCESS', 'Done.')
             } catch (e) {
-                console.log('Error clearing interval', e)
+                try {
+                    clearInterval(interval)
+                } catch (e) {}
+                
+                if (e.type === 'TIMED_OUT') {
+                    this.setStatus("ERROR", "Error: Timed out while starting runtime");
+                } else {
+                    this.setStatus("ERROR", "Error:" + e.toString());
+                }
+    
+                msg.__isError = true;
+                msg.__error = e;
             }
-
-            this.setStatus('SUCCESS', 'Done.')
-        } catch (e) {
-            try {
-                clearInterval(interval)
-            } catch (e) {}
-            
-            if (e.type === 'TIMED_OUT') {
-                this.setStatus("ERROR", "Error: Timed out while starting runtime");
-            } else {
-                this.setStatus("ERROR", "Error:" + e.toString());
-            }
-
-            msg.__isError = true;
-            msg.__error = e;
+    
+    
+            return msg;
         }
 
-
-        return msg;
     }
 }
 

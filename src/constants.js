@@ -12,6 +12,10 @@ if (process.env.RUNTIME_ENVIRONMENT === 'PRODUCTION') {
     AUTH_SERVICE_URL = 'http://authservice.default:9000'
 }
 
+MAYA_PAC_URL = 'https://api.dev.mayalabs.io/pac'
+PAC_COMMS_URL = 'wss://paccomms.pac.dev.mayalabs.io/socket'
+
+
 if (process.env.PAC_COMMS_URL) {
     PAC_COMMS_URL = process.env.PAC_COMMS_URL
 }

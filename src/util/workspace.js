@@ -29,19 +29,21 @@ class WorkspaceClient {
         const request = {
             url: `${this.backendBaseUrl}/v2/brains/getByAlias/${alias}`,
             method: "get",
-
             headers: {
                 'x-api-key': this.apiKey,
             },
         };
 
+        console.log('getreq', request)
+
         const response = await axios(request)
-        const results = response.data
-        if (results.length === 0) {
-            return null
-        } else {
-            return results[0]
-        }
+        return response?.data?.results || null
+        // console.log('getres', results)
+        // if (results.length === 0) {
+        //     return null
+        // } else {
+        //     return results[0]
+        // }
     }
 
     async searchWorkspaceByName(name) {
