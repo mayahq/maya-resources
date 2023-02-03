@@ -27,6 +27,11 @@ class SendMessage extends Node {
                 allowedTypes: ['str', 'msg', 'flow', 'global'],
                 displayName: 'Target workspace'
             }),
+            alias: new fields.Typed({
+                type: 'str',
+                allowedTypes: ['msg', 'flow', 'global'],
+                displayName: 'Target workspace alias'
+            }),
             data: new fields.Typed({
                 type: 'json',
                 allowedTypes: ['json', 'msg', 'flow', 'global'],
@@ -69,17 +74,48 @@ class SendMessage extends Node {
             }
         } catch (e) {}
 
+        const workspaceClient = new WorkspaceClient({
+            apiKey: this.credentials.auth.key,
+            backendBaseUrl: this.mayaBackendUrl
+        })
+
         let workspaceBaseUrl = null
 
         console.log('we here 2')
+        const globalContext = this.redNode.context().global
 
         if (isUrl) {
             workspaceBaseUrl = vals.targetWorkspace
             console.log('we here 3', workspaceBaseUrl)
+
+        } else if (vals.alias) {
+            let aliasUrlMap = globalContext.get('workspaceUrlsByAlias')
+            const alias = vals.alias
+
+            if (!aliasUrlMap) {
+                aliasUrlMap = {}
+                globalContext.set('workspaceUrlsByAlias', aliasUrlMap)
+            }
+
+            if (aliasUrlMap[alias]) {
+                workspaceBaseUrl = aliasUrlMap[alias]
+            } else {
+                try {
+                    const workspace = await workspaceClient.getWorkspaceByAlias(alias)
+                    workspaceBaseUrl = workspace.url
+                    aliasUrlMap[alias] = workspaceBaseUrl
+                    globalContext.set('workspaceUrlsByAlias', aliasUrlMap)
+                } catch (e) {
+                    console.log('Workspace not found, oops', e?.response?.status, e?.response?.data)
+                    msg.__isError = true
+                    msg.__error = e
+                    return msg
+                }
+            }
+
         } else {
             console.log('we here 4', workspaceBaseUrl)
             const targetId = vals.targetWorkspace
-            const globalContext = this.redNode.context().global
             let urlMap = globalContext.get('workspaceUrls')
             if (!urlMap) {
                 urlMap = {}
@@ -89,10 +125,7 @@ class SendMessage extends Node {
             if (urlMap[targetId]) {
                 workspaceBaseUrl = urlMap[targetId]
             } else {
-                const workspaceClient = new WorkspaceClient({
-                    apiKey: this.credentials.auth.key,
-                    backendBaseUrl: this.mayaBackendUrl
-                })
+                
         
                 const workspaceRes = await workspaceClient.getWorkspace({
                     workspaceId: targetId
@@ -104,9 +137,9 @@ class SendMessage extends Node {
                 })
                 workspaceBaseUrl = workspace.url
             }
-
-            
         }
+
+
         const request = {
             url: `${workspaceBaseUrl}/send-maya-message`,
             method: 'post',
