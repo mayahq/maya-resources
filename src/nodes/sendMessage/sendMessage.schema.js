@@ -8,6 +8,30 @@ const path = require('path')
 const MayaResourcesAuth = require('../mayaResourcesAuth/mayaResourcesAuth.schema')
 const WorkspaceClient = require('../../util/workspace')
 
+
+// const baseTypes = ['string', 'number', 'boolean']
+// function getSerialisableMessage(msg) {
+//     const smsg = {}
+//     const iterate = (msg, obj) => {
+//         Object.entries(msg).forEach(([key, val]) => {
+//             if (baseTypes.includes(typeof val) || val === null || val === undefined) {
+//                 obj[key] = val
+//             } else if (typeof val === 'object') {
+//                 obj[key] = {}
+//                 iterate(val, obj[key])
+//             }
+//         })
+//     }
+
+//     iterate(msg, smsg)
+//     return smsg
+// }
+
+// const exmsg = {
+//     a: 1,
+//     b: 2,
+// }
+
 class SendMessage extends Node {
     constructor(node, RED, opts) {
         super(node, RED, {
@@ -144,7 +168,7 @@ class SendMessage extends Node {
             url: `${workspaceBaseUrl}/send-maya-message`,
             method: 'post',
             data: {
-                data: vals.data,
+                data: msg,
                 from: this._mayaRuntimeId
             },
             headers: {

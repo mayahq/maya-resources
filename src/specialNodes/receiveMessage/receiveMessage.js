@@ -202,11 +202,13 @@ module.exports = function (RED) {
                     return res.status(401).send('Unauthorized')
                 }
 
+				const receivedMsg = req.body.data
 				node.send({
 					_msgid: msgid,
 					req: req,
 					res: createResponseWrapper(node, res),
 					payload: req.body,
+					...receivedMsg
 				});
 			};
 
