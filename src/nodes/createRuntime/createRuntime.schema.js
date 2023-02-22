@@ -4,6 +4,19 @@ const MayaResourcesAuth = require("../mayaResourcesAuth/mayaResourcesAuth.schema
 const { poll } = require("../../util/poll");
 const WorkspaceClient = require("../../util/workspace");
 
+
+// (Open 🔗)
+
+const getWorkspaceRunningMessage = (workspace) => (
+    // `Worker "${workspace.name}" running. [Click to open](/edit?id=${workspace._id})`
+    `
+    Workspace "${workspace.name}" running. 
+    <a href="/edit?id=${workspace._id}" target="_blank" class="node-status-link">
+        Click to open.
+    </a>
+    `
+)
+
 class CreateRuntime extends Node {
     constructor(node, RED, opts) {
         super(node, RED, {
@@ -82,13 +95,13 @@ class CreateRuntime extends Node {
                     }
 
                     if (workspace.status === 'STARTED') {
-                        this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+                        this.setStatus('SUCCESS', getWorkspaceRunningMessage(workspace))
                         this.redNode.send(msg)
                     } else {
                         this.setStatus('PROGRESS', 'Starting workspace')
                         client.startWorkspace(workspace._id, 'NEVER')
                             .then(() => {
-                                this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+                                this.setStatus('SUCCESS', getWorkspaceRunningMessage(workspace))
                                 this.redNode.send(msg)
                             })
                             .catch((e) => {
@@ -128,7 +141,7 @@ class CreateRuntime extends Node {
 
                             client.startWorkspace(workspace._id, 'NEVER')
                                 .then(() => {
-                                    this.setStatus('SUCCESS', `Workspace ${workspace.name} running`)
+                                    this.setStatus('SUCCESS', getWorkspaceRunningMessage(workspace))
                                     return this.redNode.send(msg)
                                 })
                                 .catch(e => {
