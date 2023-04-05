@@ -32,7 +32,6 @@ class ListDocuments extends Node {
         const request = {
             url: `/v1/library/document/list`,
             method: "get",
-            data: {},
 
             headers: {
                 'x-api-key': this.credentials.auth.key,

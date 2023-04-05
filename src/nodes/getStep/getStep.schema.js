@@ -32,7 +32,6 @@ class GetStep extends Node {
         const request = {
             url: `/v1/library/step/${vals.stepId}`,
             method: "get",
-            data: {},
         };
 
         try {

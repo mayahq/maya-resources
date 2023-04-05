@@ -32,7 +32,6 @@ class ListSteps extends Node {
         const request = {
             url: `/v1/library/steps`,
             method: "get",
-            data: {},
 
             headers: {
                 'x-api-key': this.credentials.auth.key,

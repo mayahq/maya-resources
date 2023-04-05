@@ -32,7 +32,6 @@ class ClearSteps extends Node {
         const request = {
             url: `/v1/library/step/clear`,
             method: "get",
-            data: {},
 
             headers: {
                 'x-api-key': this.credentials.auth.key,

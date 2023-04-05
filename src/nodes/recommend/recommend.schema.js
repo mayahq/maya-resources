@@ -39,7 +39,6 @@ class Recommend extends Node {
         const request = {
             url: `/v1/library/document/recommend?q=${vals.q}`,
             method: "get",
-            data: {},
 
             headers: {
                 'x-api-key': this.credentials.auth.key,

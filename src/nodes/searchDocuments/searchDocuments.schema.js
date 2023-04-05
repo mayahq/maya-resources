@@ -46,7 +46,6 @@ class SearchDocuments extends Node {
         const request = {
             url: `/v1/library/document/search?q=${vals.q}&limit=${vals.limit}`,
             method: "get",
-            data: {},
 
             headers: {
                 'x-api-key': this.credentials.auth.key,

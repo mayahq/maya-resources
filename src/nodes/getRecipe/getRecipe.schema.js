@@ -32,7 +32,6 @@ class GetRecipe extends Node {
         const request = {
             url: `/v1/library/recipe/${vals.recipeId}`,
             method: "get",
-            data: {},
         };
 
         try {

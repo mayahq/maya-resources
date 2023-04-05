@@ -32,7 +32,6 @@ class ListRuntime extends Node {
         const request = {
             url: `${this.mayaBackendUrl}/api/v2/dashboard`,
             method: "get",
-            data: {},
 
             headers: {
                 'x-api-key': this.credentials.auth.key,

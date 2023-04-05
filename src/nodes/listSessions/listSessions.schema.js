@@ -33,7 +33,6 @@ class ListSessions extends Node {
         const request = {
             url: `/v1/sessions`,
             method: "get",
-            data: {},
 
             headers: {
                 'x-api-key': this.credentials.auth.key,

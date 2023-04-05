@@ -25,7 +25,6 @@ class HealthCheck extends Node {
         const request = {
             url: `/health`,
             method: "get",
-            data: {},
         };
 
         try {
