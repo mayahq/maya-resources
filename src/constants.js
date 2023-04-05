@@ -7,13 +7,13 @@ if (process.env.RUNTIME_ENVIRONMENT === 'PRODUCTION') {
     PAC_COMMS_URL = 'wss://paccomms.pac.mayalabs.io/socket'
     AUTH_SERVICE_URL = 'http://authservice.default:9000'
 } else if (process.env.RUNTIME_ENVIRONMENT === 'STAGING') {
-    MAYA_PAC_URL = 'https://api.dev.mayalabs.io/pac'
-    PAC_COMMS_URL = 'wss://paccomms.pac.dev.mayalabs.io/socket'
+    MAYA_PAC_URL = 'https://api.mayalabs.io/pac'
+    PAC_COMMS_URL = 'wss://paccomms.prod.dev.mayalabs.io/socket'
     AUTH_SERVICE_URL = 'http://authservice.default:9000'
 }
 
-MAYA_PAC_URL = 'https://api.dev.mayalabs.io/pac'
-PAC_COMMS_URL = 'wss://paccomms.pac.dev.mayalabs.io/socket'
+// MAYA_PAC_URL = 'https://api.dev.mayalabs.io/pac'
+// PAC_COMMS_URL = 'wss://paccomms.pac.dev.mayalabs.io/socket'
 
 
 if (process.env.PAC_COMMS_URL) {
