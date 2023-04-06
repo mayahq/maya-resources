@@ -14,7 +14,7 @@ class ListRuntime extends Node {
 
     static schema = new Schema({
         name: "list-runtime",
-        label: "List Runtime",
+        label: "List Workers",
         category: "Maya :: Runtime",
         isConfig: false,
         fields: {

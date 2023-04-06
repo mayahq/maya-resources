@@ -28,7 +28,7 @@ class CreateRuntime extends Node {
 
     static schema = new Schema({
         name: "create-runtime",
-        label: "Create Runtime",
+        label: "Create Worker",
         category: "Maya :: Runtime",
         isConfig: false,
         fields: {
@@ -39,7 +39,7 @@ class CreateRuntime extends Node {
             workspaceName: new fields.Typed({
                 type: "str",
                 allowedTypes: ["msg", "flow", "global"],
-                displayName: "Workspace Name",
+                displayName: "Worker Name",
                 defaultVal: "",
                 required: true,
             }),

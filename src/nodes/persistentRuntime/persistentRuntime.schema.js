@@ -20,7 +20,7 @@ class PersistentRuntime extends Node {
 
     static schema = new Schema({
         name: 'persistent-runtime',
-        label: 'Persistent Runtime',
+        label: 'Persistent Worker',
         category: 'Maya :: Runtime',
         isConfig: false,
         fields: {

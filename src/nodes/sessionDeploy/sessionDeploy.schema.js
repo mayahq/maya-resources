@@ -42,7 +42,7 @@ class SessionDeploy extends Node {
                 type: "str",
                 allowedTypes: ["msg", "flow", "global", "str"],
                 defaultVal: "abc",
-                displayName: "Workspace Id",
+                displayName: "Worker Id",
             }),
         },
         color: "#37B954",

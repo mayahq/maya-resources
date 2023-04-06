@@ -15,7 +15,7 @@ class DeleteRuntime extends Node {
 
     static schema = new Schema({
         name: "delete-runtime",
-        label: "Delete Runtime",
+        label: "Delete Worker",
         category: "Maya :: Runtime",
         isConfig: false,
         fields: {

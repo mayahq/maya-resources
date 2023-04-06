@@ -14,7 +14,7 @@ class GetRuntime extends Node {
 
     static schema = new Schema({
         name: "get-runtime",
-        label: "Get Runtime",
+        label: "Get Worker",
         category: "Maya :: Runtime",
         isConfig: false,
         fields: {

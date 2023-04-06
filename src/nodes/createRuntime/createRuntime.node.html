@@ -47,9 +47,9 @@
         outputs: 1,
         icon: "fa-file-code-o.png",
         label: function() {
-            return this.name || "Create Runtime"
+            return this.name || "Create Worker"
         },
-        paletteLabel: "Create Runtime",
+        paletteLabel: "Create Worker",
         exportable: true,
         oneditprepare: function() {
             if (this.payloadTypeworkspaceName === null) {
@@ -144,7 +144,7 @@
         <input type="text" id="node-input-auth"></input>
     </div>
     <div class="form-row">
-        <label for="node-input-workspaceName">Workspace Name</label>
+        <label for="node-input-workspaceName">Worker Name</label>
         <input type="text" id="node-input-workspaceName"></input>
         <input type="hidden" id="node-input-payloadTypeworkspaceName">
     </div>

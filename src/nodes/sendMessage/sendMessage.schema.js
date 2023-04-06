@@ -49,12 +49,12 @@ class SendMessage extends Node {
             targetWorkspace: new fields.Typed({
                 type: 'str',
                 allowedTypes: ['str', 'msg', 'flow', 'global'],
-                displayName: 'Target workspace'
+                displayName: 'Target worker'
             }),
             alias: new fields.Typed({
                 type: 'str',
                 allowedTypes: ['msg', 'flow', 'global'],
-                displayName: 'Target workspace alias'
+                displayName: 'Target worker alias'
             }),
             data: new fields.Typed({
                 type: 'json',
