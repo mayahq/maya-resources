@@ -89,6 +89,7 @@ class ReceiveMessage extends Node {
 
         this.redNode.callback = (req, res) => {
             console.log('received message data:', req.body)
+            this.redNode.sendExecStatus('running')
             const __returnResponse = (response) => {
                 res.status(200).send({
                     data: response,
@@ -96,18 +97,14 @@ class ReceiveMessage extends Node {
                 })
             }
 
-            console.log('we here now too')
             this.redNode.warn('before send ' + this.redNode.id)
-            console.log('node is', this.redNode)
-            console.log('_flow is', this.redNode._flow)
             this.redNode.send({
                 payload: req.body,
                 abc: 1,
                 _msgid: this.RED.util.generateId(),
                 __returnResponse
             })
-            this.redNode.warn('after send')
-            console.log('wtf?', this.redNode.send)
+            this.redNode.sendExecStatus('done')
         }
 
         console.log('Starting endpoint listener')
