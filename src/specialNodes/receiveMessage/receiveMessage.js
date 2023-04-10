@@ -194,6 +194,7 @@ module.exports = function (RED) {
 			};
 
 			this.callback = async function (req, res) {
+				node.sendExecStatus('running')
 				var msgid = RED.util.generateId();
 				res._msgid = msgid;
 
@@ -210,6 +211,8 @@ module.exports = function (RED) {
 					payload: req.body,
 					...receivedMsg
 				});
+
+				node.sendExecStatus('done')
 			};
 
 			var httpMiddleware = function (req, res, next) {
